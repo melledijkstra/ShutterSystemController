@@ -106,6 +106,3 @@ class GUI:
 
 
 
-root = Tk()
-Shutter = GUI(root)
-root.mainloop()
