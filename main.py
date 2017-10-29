@@ -1,5 +1,3 @@
-from Controller.View.GUI import *
+from Controller.Controller.Controller import *
 
-root = Tk()
-Shutter = GUI(root)
-root.mainloop()
+c = Controller()

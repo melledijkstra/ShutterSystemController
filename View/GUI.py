@@ -1,10 +1,14 @@
 from tkinter import *
+from Controller.Controller.Controller import *
 
 class GUI:
 
     def __init__(self, master):
         frame = Frame(master, width=300, height=250, bg="white")
         frame.pack()
+        self.is_updated = False
+        c = Controller()
+
 
         # ***** LOGOS *****
         logo_light = PhotoImage(file="light.GIF")
@@ -65,17 +69,20 @@ class GUI:
 
         label_temp2 = Label(frame, text='Temperature:', bg="white")
         label_temp2.grid(row=2, column=4, padx=5, pady=5, sticky=W)
-            #Update Button
-        button_update = Button(frame, text='Update', width=10)
+
+        #Update Button
+        button_update = Button(frame, text='Update', width=10, command=c.check_data(self.light, self.temp))
         button_update.grid(row=3, column=5, padx=5, pady=5, sticky=W)
 
         # ***** SETTINGS INPUT *****
-        entry_light = Entry(frame, width=12, bg="white")
+        self.light = StringVar()
+        entry_light = Entry(frame, width=12, bg="white", textvariable= self.light)
         entry_light.grid(row=1, column=5, padx=5, pady=5, sticky=E)
         label_entry_light = Label(frame, text='%', bg="white")
         label_entry_light.grid(row=1, column=5, padx=5, pady=5, sticky=E)
 
-        entry_temp = Entry(frame, width=12)
+        self.temp = StringVar()
+        entry_temp = Entry(frame, width=12, textvariable=self.temp)
         entry_temp.grid(row=2, column=5, padx=5, pady=5, sticky=E)
         label_entry_temp = Label(frame, text='°C', bg="white")
         label_entry_temp.grid(row=2, column=5, padx=5, pady=5, sticky=E)
@@ -101,8 +108,21 @@ class GUI:
 
 
         # ***** STATUS BAR *****
-        status = Label(root, text="statusbar", bd=1, bg="white", relief=SUNKEN, anchor=W)
-        status.pack(side=BOTTOM, fill=X)
+        #status = Label(frame, text="statusbar", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        #status.pack(side=BOTTOM, fill=X)
+
+    '''def show_values(self, temperature, light, status):
+
+    def is_updated(self):
+        self.is_updated = True
+        return self.is_updated
+    '''
+
+
+root = Tk()
+Shutter = GUI(root)
+root.mainloop()
+
 
 
 
