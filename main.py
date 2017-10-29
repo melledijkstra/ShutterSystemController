@@ -1,3 +1,4 @@
-from Controller.Controller.Controller import *
+from shutter.controller import Controller
 
-c = Controller()
+if __name__ == '__main__':
+    controller = Controller()
