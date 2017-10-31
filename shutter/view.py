@@ -48,8 +48,8 @@ class GUI:
         self.lbl_temp = Label(self.frame, text='Temperature:', bg="white")
         self.lbl_temp.grid(row=2, column=1, padx=5, pady=5, sticky=W)
 
-        self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
-        self.lbl_rolled.grid(row=3, column=1, padx=5, pady=5, sticky=W)
+        self.lbl_status = Label(self.frame, text='Status:', bg="white")
+        self.lbl_status.grid(row=3, column=1, padx=5, pady=5, sticky=W)
 
         # ***** STATUS OUTPUT *****
         self.lbl_light = Label(self.frame, bg="white", text="light_val"' %')
@@ -58,8 +58,8 @@ class GUI:
         self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C')
         self.lbl_temp.grid(row=2, column=2, padx=5, pady=5, sticky=E)
 
-        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val")
-        self.lbl_rolled.grid(row=3, column=2, padx=5, pady=5, sticky=E)
+        self.lbl_status = Label(self.frame, bg="white", text="roll_val")
+        self.lbl_status.grid(row=3, column=2, padx=5, pady=5, sticky=E)
 
         # ***** SETTINGS *****
         self.lbl_settings = Label(self.frame, text='SETTINGS', bg="white")
@@ -73,7 +73,7 @@ class GUI:
         self.lbl_temp2.grid(row=2, column=4, padx=5, pady=5, sticky=W)
 
         # Update Button
-        self.btn_update = Button(self.frame, text='Update', width=10, command=self.c.update)
+        self.btn_update = Button(self.frame, text='Update', width=10)
         self.btn_update.grid(row=3, column=5, padx=5, pady=5, sticky=W)
 
         # Update Button
@@ -108,8 +108,19 @@ class GUI:
 
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="connected" if self.c.isConnected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
+
+    def update(self, temp, light, status):
+        self.lbl_temp['text'] = temp
+        self.lbl_light['text'] = light
+        if status == 0:
+            self.lbl_status['text'] = "Rolled up"
+        else:
+            self.lbl_status['text'] = "Rolled down"
+
+
+

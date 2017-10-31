@@ -1,64 +1,47 @@
-from shutter.communication import SerialCommunication
-from shutter.view import GUI
+from controller.shutter.communication import SerialCommunication
+from controller.shutter.view import GUI
+from controller.shutter.model import Model
 
-class Controller():
-
-    TEMP = 1
-    LIGHT = 2
-    STATUS = 3
-
-    ROLLDOWN    = 1
-    ROLLUP      = 0
+class Controller:
 
     def __init__(self):
-        self.status = self.ROLLUP
+        self.model = Model()
         # setup serial communication
         self.conn = SerialCommunication('COM3')
-        self.conn.set_listener(self.inputIncoming)
+        self.conn.set_listener(self.serial_update)
         # set view
         self.view = GUI()
         self.view.set_controller(self)
         self.view.structure_gui()
         self.view.run()
 
-    def send_data_to_gui(self, data):
-        self.conn.read()
-        # Check the id byte to make sure from what sensor the next byte will be
-        if int(data[0], 2) == self.TEMP:
-            return int(data[1], 2)          # If the id byte = 1, return the temperature
-        elif int(data[0], 2) == self.LIGHT:
-            return int(data[1], 2)          # If the id byte = 2, return the light intensity
-        elif int(data[0], 2) == self.STATUS:
-            return int(data[1], 2)          # If the id byte = 3, return the status
+    def check_data(self):
+        if self.model.min_setting_temp <= self.model.temp <= self.model.max_setting_temp | self.model.min_setting_light <= self.model.light <= self.model.max_setting_light:
+            self.conn.write(self.model.ROLLDOWN)
+        else:
+            self.conn.write(self.model.ROLLUP)
 
-    def check_data(self, data: list, light: int, temp: float):
-        if (int(data[0], 2) == self.TEMP and temp <= int(data[1], 2)) | \
-            int(data[0], 2) == self.LIGHT and light <= int(data[1], 2):
-            self.conn.write(self.ROLLDOWN)
+    def is_connected(self):
+        return self.conn.is_connected()
 
-    def update(self):
-        print("updated")
-
-    def isConnected(self):
-        return self.conn.isConnected()
-
-    def inputIncoming(self, byte):
+    def serial_update(self, data: list):
         # check incoming data
-        pass
+        self.model.update_model(data)
+        self.view.update(self.model.temp, self.model.light, self.model.status)
 
     def connect(self):
         status = self.conn.open_connection()
         self.view.update_connection_status(status)
 
     def toggle_shutter(self):
-        if self.status is self.ROLLDOWN:
+        if self.model.status is self.model.ROLLDOWN:
             print("sending rollup message")
-            self.conn.write(self.ROLLUP)
-            self.status = self.ROLLUP
+            self.conn.write(self.model.ROLLUP)
+            self.status = self.model.ROLLUP
         else:
             print("sending rolldown message")
-            self.conn.write(self.ROLLDOWN)
-            self.status = self.ROLLDOWN
+            self.conn.write(self.model.ROLLDOWN)
+            self.model.status = self.model.ROLLDOWN
 
 
 
