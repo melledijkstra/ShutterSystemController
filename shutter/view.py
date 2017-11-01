@@ -138,8 +138,19 @@ class GUI:
         self.btn_update.config(font=("", 11))
 
         # Input error label
-        self.lbl_error = Label(self.frame, text='Error', bg="white", fg="red")
-        self.lbl_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.light_error = StringVar()
+        self.temp_error = StringVar()
+        self.min_error = StringVar()
+        self.max_error =StringVar()
+
+        self.lbl_light_error = Label(self.frame, textvariable=self.light_error, bg="white", fg="red")
+        self.lbl_light_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_temp_error = Label(self.frame, textvariable=self.temp_error, bg="white", fg="red")
+        self.lbl_temp_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_min_error = Label(self.frame, textvariable=self.min_error, bg="white", fg="red")
+        self.lbl_min_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_max_error = Label(self.frame, textvariable=self.max_error, bg="white", fg="red")
+        self.lbl_max_error.grid(row=6, column=7, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
             #light
@@ -201,4 +212,3 @@ class GUI:
 
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
-

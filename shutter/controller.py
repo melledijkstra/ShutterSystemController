@@ -37,63 +37,88 @@ class Controller():
             self.conn.write(self.ROLLDOWN)
 
     #Update button
-        #Check value's in entry's. If value is OK, send value. If value is not OK, refuse and try again.
     def update(self):
-        #light_entry
-        #temp_entry
-        #min_distance_entry
-        #max_distance_entry
+
         try:
             if (self.view.light_entry.get() >-1 and self.view.light_entry.get() < 101):
                 #send update
-                print("updated light ")
+                print("updated light")
+                self.view.light_error.set('')
+                self.view.frame.update()
             elif (self.view.light_entry.get() <0 or self.view.light_entry.get() > 100):
-                print("light entry not between 0 and 100")
+                print("!light entry not between 0 and 100")
+                self.view.light_error.set('Light intensity should be between 0 and 100.')
+                self.view.frame.update()
             else:
-                print("unknown error")
+                print("!unknown error")
+                self.view.light_error.set('Unknown error.')
+                self.view.frame.update()
         except:
-            print("light entry not integer")
+            print("!light entry not integer")
+            self.view.light_error.set('Light intensity should be an integer.')
+            self.view.frame.update()
 
         try:
             if (self.view.temp_entry.get() >-1 and self.view.temp_entry.get() < 101):
                 #send update
                 print ("updated temperature")
+                self.view.temp_error.set('')
+                self.view.frame.update()
             elif (self.view.temp_entry.get() <0 or self.view.temp_entry.get() > 100):
-                print ("temp entry not between 0 and 100")
+                print ("!temp entry not between 0 and 100")
+                self.view.temp_error.set('Temperature should be between 0 and 100')
+                self.view.frame.update()
             else:
-                print("unknown error")
+                print("!unknown error")
+                self.view.temp_error.set('Unknown error')
+                self.view.frame.update()
         except:
-            print("temp entry not integer")
+            print("!temp entry not integer")
+            self.view.temp_error.set('Temperature should be an integer')
+            self.view.frame.update()
 
         try:
             if (self.view.min_distance_entry.get() >-1 and self.view.min_distance_entry.get() < 256 ):
                 #send update
                 print("updated min distance")
+                self.view.min_error.set('')
+                self.view.frame.update()
             elif(self.view.min_distance_entry.get()  <-1 or self.view.min_distance_entry.get() > 256):
-                print("min distance entry not between 0 and 255")
+                print("!min distance entry not between 0 and 255")
+                self.view.min_error.set('Minimum distance should be between 0 and 255.')
+                self.view.frame.update()
             else:
-                print("unknown error")
+                print("!unknown error")
+                self.view.min_error.set('Unknown error.')
+                self.view.frame.update()
         except:
-            print("min distance entry not integer")
+            print("!min distance entry not integer")
+            self.view.min_error.set('Minimum distance should be an integer.')
+            self.view.frame.update()
 
         try:
             if (self.view.max_distance_entry.get() >-1 and self.view.max_distance_entry.get() < 256 and self.view.max_distance_entry.get() > self.view.min_distance_entry.get() ):
                 #send update
                 print("updated max distance")
+                self.view.max_error.set('')
+                self.view.frame.update()
             else:
                 if (self.view.max_distance_entry.get()  <-1 or self.view.max_distance_entry.get() > 256):
-                    print("max distance entry not between 0 and 255")
+                    print("!max distance entry not between 0 and 255")
+                    self.view.max_error.set('Maximum distance should be between 0 and 255')
+                    self.view.frame.update()
                 elif (self.view.max_distance_entry.get() <= self.view.min_distance_entry.get() ):
-                    print("max distance is smaller or equal to min distance")
+                    print("!max distance is smaller or equal to min distance")
+                    self.view.max_error.set('Maximum distance should be larger than minimum.')
+                    self.view.frame.update()
                 else:
-                    print("unknown error")
+                    print("!unknown error")
+                    self.view.max_error.set('Unknown error')
+                    self.view.frame.update()
         except:
-            print("max distance entry not integer")
-
-
-
-
-
+            print("!max distance entry not integer")
+            self.view.max_error.set('Maximum distance should be an integer.')
+            self.view.frame.update()
 
     def isConnected(self):
         return self.conn.isConnected()
