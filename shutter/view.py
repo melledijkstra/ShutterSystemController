@@ -18,34 +18,55 @@ class GUI:
         self.frame = Frame(self.master, bg="white")
         self.frame.pack(fill=BOTH, expand=1)
 
+        # ***** CONFIG COLUMNS/ROWS *****
         self.frame.grid_columnconfigure(4, weight=3)
         self.frame.grid_columnconfigure(11, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(6, weight=1)
-
-
+        self.frame.grid_rowconfigure(9, weight=1)
 
         # ***** LOGOS *****
+                #Icon light status
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=1)
 
+                #Icon temp status
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=1, sticky=E)
 
+                #Icon light settings
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=4, sticky=E)
-
+                #Icon temp settings
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=4, sticky=E)
+
+                #Icon distance status
+        self.logo_distance = PhotoImage(file="assets/distance.GIF")
+        self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
+        self.lbl_distance.image = self.logo_distance
+        self.lbl_distance.grid(row=3, column=1, sticky=E)
+
+                #Icon distance settings min
+        self.logo_distance = PhotoImage(file="assets/distance.GIF")
+        self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
+        self.lbl_distance.image = self.logo_distance
+        self.lbl_distance.grid(row=3, column=4, sticky=E)
+
+                #Icon distance settings max
+        self.logo_distance = PhotoImage(file="assets/distance.GIF")
+        self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
+        self.lbl_distance.image = self.logo_distance
+        self.lbl_distance.grid(row=4, column=4, sticky=E)
+
 
         # ***** STATUS *****
         self.lbl_status = Label(self.frame, text='STATUS', bg="white")
@@ -60,19 +81,34 @@ class GUI:
         self.lbl_temp.grid(row=2, column=2, padx=5, pady=5, sticky=W)
         self.lbl_temp.config(font=("", 12))
 
+        self.lbl_rolled_distance = Label(self.frame, text='Rolled distance:', bg='white')
+        self.lbl_rolled_distance.grid(row=3, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_rolled_distance.config(font=("", 12))
+
         self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
-        self.lbl_rolled.grid(row=3, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_rolled.grid(row=4, column=2, padx=5, pady=5, sticky=W)
         self.lbl_rolled.config(font=("", 12))
 
         # ***** STATUS OUTPUT *****
-        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %')
+                        #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
+        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %' if self.c.isConnected() else '- %')
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
+        self.lbl_light.config(font=("", 12))
 
-        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C')
+                        #Show temperature in celsius
+        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C' if self.c.isConnected() else '- °C')
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
+        self.lbl_temp.config(font=("", 12))
 
-        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val")
-        self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
+                        #Show distance shutter is rolled out
+        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' CM' if self.c.isConnected() else '- CM')
+        self.lbl_distance.grid(row=3, column=3, padx=5, pady=5, sticky=E)
+        self.lbl_distance.config(font=("", 12))
+
+                        #Rolled out/Rolled in depending on status shutter
+        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"  if self.c.isConnected() else '-')
+        self.lbl_rolled.grid(row=4, column=3, padx=5, pady=5, sticky=E)
+        self.lbl_rolled.config(font=("", 12))
 
         # ***** SETTINGS *****
         self.lbl_settings = Label(self.frame, text='SETTINGS', bg="white")
@@ -96,36 +132,46 @@ class GUI:
         self.lbl_distance_max.config(font=("", 12))
 
         # Update Button
-        self.btn_update = Button(self.frame, text='Update', width=35, command=self.c.update)
+            #check all entry's
+        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
-
+        # Input error label
+        self.lbl_error = Label(self.frame, text='Error', bg="white", fg="red")
+        self.lbl_error.grid(row=6, column=7, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
             #light
-        self.entry_light = Entry(self.frame, width=12, bg="white")
+        self.light_entry = IntVar()
+        self.entry_light = Entry(self.frame, width=12, textvariable=self.light_entry)
         self.entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.entry_light.config(font=("", 11))
         self.lbl_entry_light = Label(self.frame, text='%', bg="white")
         self.lbl_entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.lbl_entry_light.config(font=("", 11))
+
             #temp
-        self.entry_temp = Entry(self.frame, width=12)
+        self.temp_entry = IntVar()
+        self.entry_temp = Entry(self.frame, width=12, textvariable=self.temp_entry)
         self.entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
         self.entry_temp.config(font=("", 11))
         self.lbl_entry_temp = Label(self.frame, text='°C', bg="white")
         self.lbl_entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
         self.lbl_entry_temp.config(font=("", 11))
-            #distance
-        self.input_distance_min = Entry(self.frame, width=12)
+
+            #distance minimum
+        self.min_distance_entry = IntVar()
+        self.input_distance_min = Entry(self.frame, width=12, textvariable=self.min_distance_entry)
         self.input_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_min.config(font=("", 11))
         self.cm_distance_min = Label(self.frame, text='CM', bg="white")
         self.cm_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
         self.cm_distance_min.config(font=("", 11))
 
-        self.input_distance_max = Entry(self.frame, width=12)
+            #distance maximum
+        self.max_distance_entry = IntVar()
+        self.input_distance_max = Entry(self.frame, width=12, textvariable=self.max_distance_entry)
         self.input_distance_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_max.config(font=("", 11))
         self.cm_distance_max = Label(self.frame, text='CM', bg="white")
@@ -137,7 +183,7 @@ class GUI:
         self.btn_roll.grid(row=4, column=10, padx=5, pady=5)
         self.btn_roll.config(font=("", 11))
 
-        # Update Button
+        # ***** CONNECT BUTTON *****
         self.btn_connect = Button(self.frame, text='Make connection', width=14, command=self.c.connect)
         self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
         self.btn_connect.config(font=("", 11))
