@@ -69,9 +69,9 @@ class GUI:
 
 
         # ***** STATUS *****
-        self.lbl_status = Label(self.frame, text='STATUS', bg="white")
-        self.lbl_status.grid(row=0, column=2, padx=5, pady=5, sticky=W)
-        self.lbl_status.config(font=("", 30))
+        self.lbl_rolled = Label(self.frame, text='STATUS', bg="white")
+        self.lbl_rolled.grid(row=0, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_rolled.config(font=("", 30))
 
         self.lbl_light = Label(self.frame, text='Lightintensity:', bg="white")
         self.lbl_light.grid(row=1, column=2, padx=5, pady=5, sticky=W)
@@ -85,7 +85,7 @@ class GUI:
         self.lbl_rolled_distance.grid(row=3, column=2, padx=5, pady=5, sticky=W)
         self.lbl_rolled_distance.config(font=("", 12))
 
-        self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
+        self.lbl_rolled = Label(self.frame, text='Status:', bg="white")
         self.lbl_rolled.grid(row=4, column=2, padx=5, pady=5, sticky=W)
         self.lbl_rolled.config(font=("", 12))
 
@@ -95,17 +95,17 @@ class GUI:
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
-                        #Show temperature in celsius
+        #Show temperature in celsius
         self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C' if self.c.isConnected() else '- °C')
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
-                        #Show distance shutter is rolled out
+        #Show distance shutter is rolled out
         self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' CM' if self.c.isConnected() else '- CM')
         self.lbl_distance.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_distance.config(font=("", 12))
 
-                        #Rolled out/Rolled in depending on status shutter
+        #Rolled out/Rolled in depending on status shutter
         self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"  if self.c.isConnected() else '-')
         self.lbl_rolled.grid(row=4, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
@@ -131,8 +131,7 @@ class GUI:
         self.lbl_distance_max.grid(row=4, column=7, padx=5, pady=5, sticky=W)
         self.lbl_distance_max.config(font=("", 12))
 
-        # Update Button
-            #check all entry's
+        # Update Settings button
         self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
@@ -142,7 +141,7 @@ class GUI:
         self.lbl_error.grid(row=6, column=7, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
-            #light
+        #light
         self.light_entry = IntVar()
         self.entry_light = Entry(self.frame, width=12, textvariable=self.light_entry)
         self.entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
@@ -151,7 +150,7 @@ class GUI:
         self.lbl_entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.lbl_entry_light.config(font=("", 11))
 
-            #temp
+        #temp
         self.temp_entry = IntVar()
         self.entry_temp = Entry(self.frame, width=12, textvariable=self.temp_entry)
         self.entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
@@ -160,7 +159,7 @@ class GUI:
         self.lbl_entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
         self.lbl_entry_temp.config(font=("", 11))
 
-            #distance minimum
+        #distance minimum
         self.min_distance_entry = IntVar()
         self.input_distance_min = Entry(self.frame, width=12, textvariable=self.min_distance_entry)
         self.input_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
@@ -169,7 +168,7 @@ class GUI:
         self.cm_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
         self.cm_distance_min.config(font=("", 11))
 
-            #distance maximum
+        #distance maximum
         self.max_distance_entry = IntVar()
         self.input_distance_max = Entry(self.frame, width=12, textvariable=self.max_distance_entry)
         self.input_distance_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
@@ -191,14 +190,20 @@ class GUI:
         # ***** CHART *****
 
 
-
-
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="connected" if self.c.isConnected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
 
 
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
+
+    def update(self, temp, light, status):
+        self.lbl_temp['text'] = temp
+        self.lbl_light['text'] = light
+        if status == 0:
+            self.lbl_rolled['text'] = "Rolled up"
+        else:
+            self.lbl_rolled['text'] = "Rolled down"
 
