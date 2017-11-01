@@ -23,7 +23,7 @@ class GUI:
         self.frame.grid_columnconfigure(11, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(6, weight=1)
+        self.frame.grid_rowconfigure(9, weight=1)
 
         # ***** LOGOS *****
                 #Icon light status
@@ -132,13 +132,19 @@ class GUI:
         self.lbl_distance_max.config(font=("", 12))
 
         # Update Button
+            #check all entry's
         self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
+        # Input error label
+        self.lbl_error = Label(self.frame, text='Error', bg="white", fg="red")
+        self.lbl_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+
         # ***** SETTINGS INPUT *****
             #light
-        self.entry_light = Entry(self.frame, width=12, bg="white")
+        self.light_entry = IntVar()
+        self.entry_light = Entry(self.frame, width=12, textvariable=self.light_entry)
         self.entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.entry_light.config(font=("", 11))
         self.lbl_entry_light = Label(self.frame, text='%', bg="white")
@@ -146,7 +152,8 @@ class GUI:
         self.lbl_entry_light.config(font=("", 11))
 
             #temp
-        self.entry_temp = Entry(self.frame, width=12)
+        self.temp_entry = IntVar()
+        self.entry_temp = Entry(self.frame, width=12, textvariable=self.temp_entry)
         self.entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
         self.entry_temp.config(font=("", 11))
         self.lbl_entry_temp = Label(self.frame, text='°C', bg="white")
@@ -154,7 +161,8 @@ class GUI:
         self.lbl_entry_temp.config(font=("", 11))
 
             #distance minimum
-        self.input_distance_min = Entry(self.frame, width=12)
+        self.min_distance_entry = IntVar()
+        self.input_distance_min = Entry(self.frame, width=12, textvariable=self.min_distance_entry)
         self.input_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_min.config(font=("", 11))
         self.cm_distance_min = Label(self.frame, text='CM', bg="white")
@@ -162,7 +170,8 @@ class GUI:
         self.cm_distance_min.config(font=("", 11))
 
             #distance maximum
-        self.input_distance_max = Entry(self.frame, width=12)
+        self.max_distance_entry = IntVar()
+        self.input_distance_max = Entry(self.frame, width=12, textvariable=self.max_distance_entry)
         self.input_distance_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_max.config(font=("", 11))
         self.cm_distance_max = Label(self.frame, text='CM', bg="white")
