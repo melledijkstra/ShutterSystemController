@@ -8,7 +8,7 @@ class GUI:
         self.master.state('zoomed')
         self.master.title = ('Shutter System')
 
-    def set_controller(self, controller):
+    def register(self, controller):
         self.c = controller
 
     def run(self):

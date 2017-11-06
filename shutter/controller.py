@@ -4,14 +4,14 @@ from shutter.model import Model
 
 class Controller:
 
-    def __init__(self):
-        self.model = Model()
+    def __init__(self, view: GUI, model: Model):
         # setup serial communication
         self.conn = SerialCommunication('COM3')
         self.conn.set_listener(self.serial_update)
         # set view
-        self.view = GUI()
-        self.view.set_controller(self)
+        self.model = model
+        self.view = view
+        self.view.register(self)
         self.view.structure_gui()
         self.view.run()
 
