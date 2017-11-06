@@ -1,6 +1,6 @@
-from controller.shutter.communication import SerialCommunication
-from controller.shutter.view import GUI
-from controller.shutter.model import Model
+from shutter.communication import SerialCommunication
+from shutter.view import GUI
+from shutter.model import Model
 
 class Controller:
 
