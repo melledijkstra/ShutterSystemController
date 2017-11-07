@@ -6,3 +6,5 @@ if __name__ == '__main__':
     view = GUI()
     model = Model()
     controller = Controller(view, model)
+
+    view.run()
