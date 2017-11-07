@@ -1,3 +1,5 @@
+from time import gmtime, strftime
+
 class Model:
 
     TEMP = 1
@@ -8,6 +10,7 @@ class Model:
     ROLLUP = 0
 
     def __init__(self):
+        self.historyledger = {}
         self.temp = 0
         self.light = 0
         self.status = 0
@@ -17,9 +20,18 @@ class Model:
         self.min_setting_light = 0
 
     def update_model(self, data):
-        if data[0] == self.TEMP:
-            self.temp = data[1]
-        if data[0] == self.LIGHT:
-            self.light = data[1]
-        if data[0] == self.STATUS:
-            self.status = data[1]
+        try:
+            time = strftime("%H:%M:%S", gmtime())
+            for lists in data:
+                id = lists[0]
+                value = lists[1]
+                if id == self.TEMP:
+                    self.temp = value
+                if id == self.LIGHT:
+                    self.light = value
+
+            self.historyledger[time] = {Model.TEMP: self.temp, Model.LIGHT: self.light}
+        except IOError:
+            print("Invalid data from Arduino")
+
+

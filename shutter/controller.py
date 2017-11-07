@@ -4,16 +4,16 @@ from shutter.model import Model
 
 class Controller:
 
-    def __init__(self):
-        self.model = Model()
-        # setup serial communication
+    def __init__(self, view: GUI, model: Model):
+        # set view
+        self.model = model
+        self.view = view
+        # register controller to handle ui interaction
+        self.view.register(self)
+        # create serial connection
         self.conn = SerialCommunication('COM3')
         self.conn.set_listener(self.serial_update)
-        # set view
-        self.view = GUI()
-        self.view.set_controller(self)
-        self.view.structure_gui()
-        self.view.run()
+
 
     def check_data(self):
         if self.model.min_setting_temp <= self.model.temp <= self.model.max_setting_temp | self.model.min_setting_light <= self.model.light <= self.model.max_setting_light:
@@ -24,7 +24,7 @@ class Controller:
     def is_connected(self):
         return self.conn.is_connected()
 
-    #Update button
+    # Update button
     def update(self):
 
         try:
@@ -47,8 +47,8 @@ class Controller:
             self.view.frame.update()
 
         try:
-            if (self.view.temp_entry.get() >-1 and self.view.temp_entry.get() < 101):
-                #send update
+            if (self.view.temp_entry.get() > -1 and self.view.temp_entry.get() < 101):
+                # send update
                 print ("updated temperature")
                 self.view.temp_error.set('')
                 self.view.frame.update()

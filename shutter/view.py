@@ -1,22 +1,22 @@
 from tkinter import *
 import time
 
-
 class GUI:
 
     def __init__(self):
         self.master = Tk()
-        self.c = None
         self.master.state('zoomed')
         self.master.title = 'Shutter System'
+        self.initialize_gui()
+        self.c = None
 
-    def set_controller(self, controller):
+    def register(self, controller):
         self.c = controller
 
     def run(self):
         self.master.mainloop()
 
-    def structure_gui(self):
+    def initialize_gui(self):
         self.frame = Frame(self.master, bg="white")
         self.frame.pack(fill=BOTH, expand=1)
 
@@ -125,7 +125,7 @@ class GUI:
         self.lbl_distance_max.config(font=("", 12))
 
         # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
+        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=lambda: self.c.update)
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
@@ -182,12 +182,12 @@ class GUI:
         self.cm_distance_max.config(font=("", 11))
 
         # ***** ROLL BUTTON *****
-        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=self.c.toggle_shutter)
+        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=lambda: self.c.toggle_shutter)
         self.btn_roll.grid(row=4, column=10, padx=5, pady=5)
         self.btn_roll.config(font=("", 11))
 
         # ***** CONNECT BUTTON *****
-        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=self.c.connect)
+        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect)
         self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
         self.btn_connect.config(font=("", 11))
 
@@ -258,14 +258,13 @@ class GUI:
         self.lbl_yellow.grid(row=6, column=5)
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
-    #check if connected
+    # updates the status bar with connection status
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
 
-    #??????
     def update(self, temp, light, status):
         self.lbl_temp['text'] = temp
         self.lbl_light['text'] = light
@@ -274,11 +273,11 @@ class GUI:
         else:
             self.lbl_rolled['text'] = "Rolled down"
 
-    #function to start chart
+    # function to start chart
     def start_chart(self):
         self.id = self.canvas.after(300, self.step_chart)
 
-    #chart steps
+    # chart steps
     def step_chart(self):
         if self.f == 27:
             # new frame
