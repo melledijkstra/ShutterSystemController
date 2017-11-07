@@ -47,12 +47,12 @@ class Controller:
             self.view.frame.update()
 
         try:
-            if (self.view.temp_entry.get() > -1 and self.view.temp_entry.get() < 101):
+            if (self.view.min_temp_entry.get() > -1 and self.view.min_temp_entry.get() < 101):
                 # send update
                 print ("updated temperature")
                 self.view.temp_error.set('')
                 self.view.frame.update()
-            elif (self.view.temp_entry.get() <0 or self.view.temp_entry.get() > 100):
+            elif (self.view.min_temp_entry.get() <0 or self.view.min_temp_entry.get() > 100):
                 print ("!temp entry not between 0 and 100")
                 self.view.temp_error.set('Temperature should be between 0 and 100')
                 self.view.frame.update()
