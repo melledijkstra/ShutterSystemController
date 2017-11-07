@@ -1,11 +1,12 @@
 from tkinter import *
+import time
 
 class GUI:
 
     def __init__(self):
         self.master = Tk()
         self.master.state('zoomed')
-        self.master.title = ('Shutter System')
+        self.master.title = 'Shutter System'
         self.initialize_gui()
         self.c = None
 
@@ -20,11 +21,11 @@ class GUI:
         self.frame.pack(fill=BOTH, expand=1)
 
         # ***** CONFIG COLUMNS/ROWS *****
-        self.frame.grid_columnconfigure(4, weight=3)
+        self.frame.grid_columnconfigure(6, weight=3)
         self.frame.grid_columnconfigure(11, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(9, weight=1)
+        self.frame.grid_rowconfigure(12, weight=2)
 
         # ***** LOGOS *****
         #Icon light status
@@ -43,12 +44,12 @@ class GUI:
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
-        self.lbl_light.grid(row=1, column=4, sticky=E)
+        self.lbl_light.grid(row=1, column=6, sticky=E)
         #Icon temp settings
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
-        self.lbl_temp.grid(row=2, column=4, sticky=E)
+        self.lbl_temp.grid(row=2, column=6, sticky=E)
 
         #Icon distance status
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
@@ -60,13 +61,13 @@ class GUI:
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
-        self.lbl_distance.grid(row=3, column=4, sticky=E)
+        self.lbl_distance.grid(row=3, column=6, sticky=E)
 
         #Icon distance settings max
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
-        self.lbl_distance.grid(row=4, column=4, sticky=E)
+        self.lbl_distance.grid(row=4, column=6, sticky=E)
 
 
         # ***** STATUS *****
@@ -82,33 +83,24 @@ class GUI:
         self.lbl_temp.grid(row=2, column=2, padx=5, pady=5, sticky=W)
         self.lbl_temp.config(font=("", 12))
 
-        self.lbl_rolled_distance = Label(self.frame, text='Rolled distance:', bg='white')
-        self.lbl_rolled_distance.grid(row=3, column=2, padx=5, pady=5, sticky=W)
-        self.lbl_rolled_distance.config(font=("", 12))
-
         self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
-        self.lbl_rolled.grid(row=4, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_rolled.grid(row=3, column=2, padx=5, pady=5, sticky=W)
         self.lbl_rolled.config(font=("", 12))
 
         # ***** STATUS OUTPUT *****
-        #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
-        self.lbl_light = Label(self.frame, bg="white", text="light_val"' - %')
+        #Show light intensity in %
+        self.lbl_light = Label(self.frame, bg="white", textvariable="light_val", text=" %")
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
         #Show temperature in celsius
-        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' - °C')
+        self.lbl_temp = Label(self.frame, bg="white", textvariable="temp_val", text=" °C")
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
-        #Show distance shutter is rolled out
-        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' - CM')
-        self.lbl_distance.grid(row=3, column=3, padx=5, pady=5, sticky=E)
-        self.lbl_distance.config(font=("", 12))
-
         #Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"' -')
-        self.lbl_rolled.grid(row=4, column=3, padx=5, pady=5, sticky=E)
+        self.lbl_rolled = Label(self.frame, bg="white", textvariable="roll_val")
+        self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
 
         # ***** SETTINGS *****
@@ -200,12 +192,73 @@ class GUI:
         self.btn_connect.config(font=("", 11))
 
         # ***** CHART *****
+        self.running = True
+        self.minimum = 0
+        self.maximum = 100
+        self.f = 1
+        self.x_temp_2 = 50
+        self.y_temp_2 = 250     #temp_value
+        self.x_light_2 = 50
+        self.y_light_2 = 290    #light_value
 
+        self.canvas = Canvas(self.frame, width=1400, height=500, bg='white')  # 0,0 is top left corner
+        self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
+        now = time.localtime(time.time())
+
+        #Outer lines
+        self.canvas.create_line(50, 450, 1350, 450, width=2)  # x-axis
+        self.canvas.create_line(50, 450, 50, 50, width=2)  # y-axis
+
+        #inner dot lines
+        #x-axis
+        for i in range(27):
+            #time.strftime("%H:%M", now)
+            x = 50 + (i * 50)
+            self.canvas.create_line(x, 450, x, 50, width=1, dash=(2, 5))
+            self.canvas.create_text(x, 450, text='%d' % (1 * i), anchor=N)
+        self.canvas.create_text(60, 470, text='Time (minutes)', anchor=N)
+        #y-axis
+        for i in range(11):
+            y = 450 - (i * 40)
+            self.canvas.create_line(50, y, 1350, y, width=1, dash=(2, 5))
+            self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
+        self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
+
+
+        #start chart if connected
+        #if self.c.is_connected() == True:
+        self.start_chart()
+        print ('chart looping')
+        #else:
+
+        # ***** CHART LEGEND *****
+        self.lbl_lgd = Label(self.frame, text="LEGEND", bg="white")
+        self.lbl_lgd.grid(row=5, column=2, padx=5, pady=5, sticky=SW)
+        self.lbl_lgd.config(font=("", 16))
+        #label temperature
+        self.lbl_lgd_temp = Label(self.frame, text="Temperature: ", bg="white")
+        self.lbl_lgd_temp.grid(row=6, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_lgd_temp.config(font=("", 12))
+        #label red line
+        self.logo_red = PhotoImage(file="assets/redline.GIF")
+        self.lbl_red = Label(self.frame, image=self.logo_red, bg="white")
+        self.lbl_red.image = self.logo_red
+        self.lbl_red.grid(row=6, column=3, sticky=W)
+        #label light
+        self.lbl_lgd_light = Label(self.frame, text="Light intensity: ", bg="white")
+        self.lbl_lgd_light.grid(row=6, column=4, padx=5, pady=5, sticky=W)
+        self.lbl_lgd_light.config(font=("", 12))
+        #label yellow line
+        self.logo_yellow = PhotoImage(file="assets/yellowline.GIF")
+        self.lbl_yellow = Label(self.frame, image=self.logo_yellow, bg="white")
+        self.lbl_yellow.image = self.logo_yellow
+        self.lbl_yellow.grid(row=6, column=5)
 
         # ***** STATUS BAR *****
         self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
+    # updates the status bar with connection status
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
 
@@ -217,3 +270,31 @@ class GUI:
         else:
             self.lbl_rolled['text'] = "Rolled down"
 
+    # function to start chart
+    def start_chart(self):
+        self.id = self.canvas.after(300, self.step_chart)
+
+    # chart steps
+    def step_chart(self):
+        if self.f == 27:
+            # new frame
+            self.f = 1
+            self.x_temp_2 = 50
+            self.x_light_2 = 50
+            self.canvas.delete('temp')  # only delete items tagged as temp
+
+        #draw temp line
+        x_temp_1 = self.x_temp_2
+        y_temp_1 = self.y_temp_2
+        self.x_temp_2 = 50 + self.f * 50
+        self.y_temp_2 = 250         #temp_value
+        self.canvas.create_line(x_temp_1, y_temp_1, self.x_temp_2, self.y_temp_2, fill='red',width=3, tags='temp')
+        #draw light line
+        x_light_1 = self.x_light_2
+        y_light_1 = self.y_light_2
+        self.x_light_2 = 50 + self.f * 50
+        self.y_light_2 = 290        #light_value
+        self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow',width=3 , tags='temp')
+
+        self.f += 1
+        self.id = self.canvas.after(300, self.step_chart)
