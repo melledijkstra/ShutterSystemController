@@ -4,9 +4,10 @@ class GUI:
 
     def __init__(self):
         self.master = Tk()
-        self.c = None
         self.master.state('zoomed')
         self.master.title = ('Shutter System')
+        self.initialize_gui()
+        self.c = None
 
     def register(self, controller):
         self.c = controller
@@ -14,7 +15,7 @@ class GUI:
     def run(self):
         self.master.mainloop()
 
-    def structure_gui(self):
+    def initialize_gui(self):
         self.frame = Frame(self.master, bg="white")
         self.frame.pack(fill=BOTH, expand=1)
 
@@ -26,42 +27,42 @@ class GUI:
         self.frame.grid_rowconfigure(9, weight=1)
 
         # ***** LOGOS *****
-                #Icon light status
+        #Icon light status
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=1)
 
-                #Icon temp status
+        #Icon temp status
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=1, sticky=E)
 
-                #Icon light settings
+        #Icon light settings
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=4, sticky=E)
-                #Icon temp settings
+        #Icon temp settings
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=4, sticky=E)
 
-                #Icon distance status
+        #Icon distance status
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
         self.lbl_distance.grid(row=3, column=1, sticky=E)
 
-                #Icon distance settings min
+        #Icon distance settings min
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
         self.lbl_distance.grid(row=3, column=4, sticky=E)
 
-                #Icon distance settings max
+        #Icon distance settings max
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
@@ -90,23 +91,23 @@ class GUI:
         self.lbl_rolled.config(font=("", 12))
 
         # ***** STATUS OUTPUT *****
-                        #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
-        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %' if self.c.isConnected() else '- %')
+        #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
+        self.lbl_light = Label(self.frame, bg="white", text="light_val"' - %')
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
         #Show temperature in celsius
-        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C' if self.c.isConnected() else '- °C')
+        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' - °C')
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
         #Show distance shutter is rolled out
-        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' CM' if self.c.isConnected() else '- CM')
+        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' - CM')
         self.lbl_distance.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_distance.config(font=("", 12))
 
         #Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"  if self.c.isConnected() else '-')
+        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"' -')
         self.lbl_rolled.grid(row=4, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
 
@@ -132,7 +133,7 @@ class GUI:
         self.lbl_distance_max.config(font=("", 12))
 
         # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
+        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=lambda: self.c.update)
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
@@ -189,12 +190,12 @@ class GUI:
         self.cm_distance_max.config(font=("", 11))
 
         # ***** ROLL BUTTON *****
-        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=self.c.toggle_shutter)
+        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=lambda: self.c.toggle_shutter)
         self.btn_roll.grid(row=4, column=10, padx=5, pady=5)
         self.btn_roll.config(font=("", 11))
 
         # ***** CONNECT BUTTON *****
-        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=self.c.connect)
+        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect)
         self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
         self.btn_connect.config(font=("", 11))
 
@@ -202,10 +203,8 @@ class GUI:
 
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
-
-
 
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
