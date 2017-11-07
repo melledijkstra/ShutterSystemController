@@ -3,7 +3,7 @@ from tkinter import *
 
 class Chart():
 
-    def __init__(self, frame):
+    def __init__(self, frame: Frame):
         self.running = True
         self.minimum = 0
         self.maximum = 100

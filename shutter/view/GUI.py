@@ -215,17 +215,17 @@ class GUI:
         self.cm_distance_max.config(font=("", 11))
 
         # ***** ROLL BUTTON *****
-        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=lambda: self.c.toggle_shutter)
+        self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=lambda: self.c.toggle_shutter())
         self.btn_roll.grid(row=2, column=10, padx=5, pady=5, sticky=W)
         self.btn_roll.config(font=("", 11))
 
         # ***** CONNECT BUTTON *****
-        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect)
+        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect())
         self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
         self.btn_connect.config(font=("", 11))
 
         # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings',width=14 , command=lambda: self.c.update)
+        self.btn_update = Button(self.frame, text='Update Settings',width=14 , command=lambda: self.c.update())
         self.btn_update.grid(row=6, column=10, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
@@ -257,7 +257,7 @@ class GUI:
         self.lbl_yellow.grid(row=6, column=5)
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="-", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     # updates the status bar with connection status
