@@ -224,15 +224,12 @@ class GUI:
             self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
         self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
 
-        # !! temp, test !!
-        self.start_chart()
 
         #start chart if connected
-        if self.c.is_connected() == True:
-            self.start_chart()
-            print ('chart looping')
-        else:
-            print ('chart not looping')
+        #if self.c.is_connected() == True:
+        self.start_chart()
+        print ('chart looping')
+        #else:
 
         # ***** CHART LEGEND *****
         self.lbl_lgd = Label(self.frame, text="LEGEND", bg="white")
