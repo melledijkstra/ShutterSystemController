@@ -40,16 +40,28 @@ class GUI:
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=1, sticky=E)
 
-        #Icon light settings
+        #Icon light settings 1
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
-        self.lbl_light.grid(row=1, column=6, sticky=E)
-        #Icon temp settings
+        self.lbl_light.grid(row=1, column=6, pady=5, sticky=SE)
+        # Icon light settings 2
+        self.logo_light = PhotoImage(file="assets/light.GIF")
+        self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
+        self.lbl_light.image = self.logo_light
+        self.lbl_light.grid(row=2, column=6, sticky=E)
+
+        #Icon temp settings 1
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
-        self.lbl_temp.grid(row=2, column=6, sticky=E)
+        self.lbl_temp.grid(row=3, column=6, sticky=E)
+
+        #Icon temp settings 2
+        self.logo_temp = PhotoImage(file="assets/temp.GIF")
+        self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
+        self.lbl_temp.image = self.logo_temp
+        self.lbl_temp.grid(row=4, column=6, sticky=E)
 
         #Icon distance status
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
@@ -61,13 +73,13 @@ class GUI:
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
-        self.lbl_distance.grid(row=3, column=6, sticky=E)
+        self.lbl_distance.grid(row=5, column=6, sticky=E)
 
         #Icon distance settings max
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
-        self.lbl_distance.grid(row=4, column=6, sticky=E)
+        self.lbl_distance.grid(row=6, column=6, sticky=E)
 
 
         # ***** STATUS *****
@@ -108,26 +120,29 @@ class GUI:
         self.lbl_settings.grid(row=0, column=7, padx=5, pady=5, sticky=W)
         self.lbl_settings.config(font=("", 30))
 
-        self.lbl_light2 = Label(self.frame, text='Lightintensity:', bg="white")
-        self.lbl_light2.grid(row=1, column=7, padx=5, pady=5, sticky=W)
-        self.lbl_light2.config(font=("", 12))
+        self.lbl_light_min = Label(self.frame, text='Minimum Lightintensity:', bg="white")
+        self.lbl_light_min.grid(row=1, column=7, padx=5, pady=5, sticky=SW)
+        self.lbl_light_min.config(font=("", 12))
 
-        self.lbl_temp2 = Label(self.frame, text='Temperature:', bg="white")
-        self.lbl_temp2.grid(row=2, column=7, padx=5, pady=5, sticky=W)
-        self.lbl_temp2.config(font=("", 12))
+        self.lbl_light_max = Label(self.frame, text='Maximum Lightintensity:', bg="white")
+        self.lbl_light_max.grid(row=2, column=7, padx=5, pady=5, sticky=W)
+        self.lbl_light_max.config(font=("", 12))
+
+        self.lbl_temp_min = Label(self.frame, text='Minimum Temperature:', bg="white")
+        self.lbl_temp_min.grid(row=3, column=7, padx=5, pady=5, sticky=W)
+        self.lbl_temp_min.config(font=("", 12))
+
+        self.lbl_temp_max = Label(self.frame, text='Maximum Temperature:', bg="white")
+        self.lbl_temp_max.grid(row=4, column=7, padx=5, pady=5, sticky=W)
+        self.lbl_temp_max.config(font=("", 12))
 
         self.lbl_distance_min = Label(self.frame, text='Minimum Roll Distance:', bg="white")
-        self.lbl_distance_min.grid(row=3, column=7, padx=5, pady=5, sticky=W)
+        self.lbl_distance_min.grid(row=5, column=7, padx=5, pady=5, sticky=W)
         self.lbl_distance_min.config(font=("", 12))
 
         self.lbl_distance_max = Label(self.frame, text='Maximum Roll Distance:', bg="white")
-        self.lbl_distance_max.grid(row=4, column=7, padx=5, pady=5, sticky=W)
+        self.lbl_distance_max.grid(row=6, column=7, padx=5, pady=5, sticky=W)
         self.lbl_distance_max.config(font=("", 12))
-
-        # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=lambda: self.c.update)
-        self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
-        self.btn_update.config(font=("", 11))
 
         # Input error label
         self.light_error = StringVar()
@@ -145,45 +160,63 @@ class GUI:
         self.lbl_max_error.grid(row=6, column=7, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
-        #light
-        self.light_entry = IntVar()
-        self.entry_light = Entry(self.frame, width=12, textvariable=self.light_entry)
-        self.entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
-        self.entry_light.config(font=("", 11))
-        self.lbl_entry_light = Label(self.frame, text='%', bg="white")
-        self.lbl_entry_light.grid(row=1, column=8, padx=5, pady=5, sticky=E)
-        self.lbl_entry_light.config(font=("", 11))
+        #min light
+        self.light_min_entry = IntVar()
+        self.entry_light_min = Entry(self.frame, width=12, textvariable=self.light_min_entry)
+        self.entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=SE)
+        self.entry_light_min.config(font=("", 11))
+        self.lbl_entry_light_min = Label(self.frame, text='%', bg="white")
+        self.lbl_entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=SE)
+        self.lbl_entry_light_min.config(font=("", 11))
 
-        #temp
-        self.temp_entry = IntVar()
-        self.entry_temp = Entry(self.frame, width=12, textvariable=self.temp_entry)
-        self.entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
-        self.entry_temp.config(font=("", 11))
-        self.lbl_entry_temp = Label(self.frame, text='°C', bg="white")
-        self.lbl_entry_temp.grid(row=2, column=8, padx=5, pady=5, sticky=E)
-        self.lbl_entry_temp.config(font=("", 11))
+        #max light
+        self.light_max_entry = IntVar()
+        self.entry_light_max = Entry(self.frame, width=12, textvariable=self.light_max_entry)
+        self.entry_light_max.grid(row=2, column=8, padx=5, pady=5, sticky=E)
+        self.entry_light_max.config(font=("", 11))
+        self.lbl_entry_light_max = Label(self.frame, text='%', bg="white")
+        self.lbl_entry_light_max.grid(row=2, column=8, padx=5, pady=5, sticky=E)
+        self.lbl_entry_light_max.config(font=("", 11))
 
-        #distance minimum
+        #min temp
+        self.min_temp_entry = IntVar()
+        self.entry_temp_min = Entry(self.frame, width=12, textvariable=self.min_temp_entry)
+        self.entry_temp_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
+        self.entry_temp_min.config(font=("", 11))
+        self.lbl_entry_temp_min = Label(self.frame, text='°C', bg="white")
+        self.lbl_entry_temp_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
+        self.lbl_entry_temp_min.config(font=("", 11))
+
+        #max temp
+        self.max_temp_entry = IntVar()
+        self.entry_temp_max = Entry(self.frame, width=12, textvariable=self.max_temp_entry)
+        self.entry_temp_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
+        self.entry_temp_max.config(font=("", 11))
+        self.lbl_entry_temp_max = Label(self.frame, text='°C', bg="white")
+        self.lbl_entry_temp_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
+        self.lbl_entry_temp_max.config(font=("", 11))
+
+        #min distance
         self.min_distance_entry = IntVar()
         self.input_distance_min = Entry(self.frame, width=12, textvariable=self.min_distance_entry)
-        self.input_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
+        self.input_distance_min.grid(row=5, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_min.config(font=("", 11))
         self.cm_distance_min = Label(self.frame, text='CM', bg="white")
-        self.cm_distance_min.grid(row=3, column=8, padx=5, pady=5, sticky=E)
+        self.cm_distance_min.grid(row=5, column=8, padx=5, pady=5, sticky=E)
         self.cm_distance_min.config(font=("", 11))
 
-        #distance maximum
+        #max distance
         self.max_distance_entry = IntVar()
         self.input_distance_max = Entry(self.frame, width=12, textvariable=self.max_distance_entry)
-        self.input_distance_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
+        self.input_distance_max.grid(row=6, column=8, padx=5, pady=5, sticky=E)
         self.input_distance_max.config(font=("", 11))
         self.cm_distance_max = Label(self.frame, text='CM', bg="white")
-        self.cm_distance_max.grid(row=4, column=8, padx=5, pady=5, sticky=E)
+        self.cm_distance_max.grid(row=6, column=8, padx=5, pady=5, sticky=E)
         self.cm_distance_max.config(font=("", 11))
 
         # ***** ROLL BUTTON *****
         self.btn_roll = Button(self.frame, text='Roll out/Roll in', width=14, command=lambda: self.c.toggle_shutter)
-        self.btn_roll.grid(row=4, column=10, padx=5, pady=5)
+        self.btn_roll.grid(row=2, column=10, padx=5, pady=5, sticky=W)
         self.btn_roll.config(font=("", 11))
 
         # ***** CONNECT BUTTON *****
@@ -191,19 +224,23 @@ class GUI:
         self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
         self.btn_connect.config(font=("", 11))
 
+        # Update Settings button
+        self.btn_update = Button(self.frame, text='Update Settings',width=14 , command=lambda: self.c.update)
+        self.btn_update.grid(row=6, column=10, columnspan=2, padx=5, pady=5, sticky=W)
+        self.btn_update.config(font=("", 11))
+
         # ***** CHART *****
         self.running = True
         self.minimum = 0
         self.maximum = 100
         self.f = 1
         self.x_temp_2 = 50
-        self.y_temp_2 = 250     #temp_value
+        self.y_temp_2 = 0   #temp_value
         self.x_light_2 = 50
-        self.y_light_2 = 290    #light_value
+        self.y_light_2 = 0    #light_value
 
-        self.canvas = Canvas(self.frame, width=1400, height=500, bg='white')  # 0,0 is top left corner
+        self.canvas = Canvas(self.frame, width=1400, height=490, bg='white')  # 0,0 is top left corner
         self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
-        now = time.localtime(time.time())
 
         #Outer lines
         self.canvas.create_line(50, 450, 1350, 450, width=2)  # x-axis
@@ -212,7 +249,6 @@ class GUI:
         #inner dot lines
         #x-axis
         for i in range(27):
-            #time.strftime("%H:%M", now)
             x = 50 + (i * 50)
             self.canvas.create_line(x, 450, x, 50, width=1, dash=(2, 5))
             self.canvas.create_text(x, 450, text='%d' % (1 * i), anchor=N)
@@ -223,13 +259,6 @@ class GUI:
             self.canvas.create_line(50, y, 1350, y, width=1, dash=(2, 5))
             self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
         self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
-
-
-        #start chart if connected
-        #if self.c.is_connected() == True:
-        self.start_chart()
-        print ('chart looping')
-        #else:
 
         # ***** CHART LEGEND *****
         self.lbl_lgd = Label(self.frame, text="LEGEND", bg="white")
@@ -263,16 +292,18 @@ class GUI:
         self.status['text'] = "connected" if status else "disconnected"
 
     def update(self, temp, light, status):
+        #update light and temp status
         self.lbl_temp['text'] = temp
         self.lbl_light['text'] = light
+        #update rolled status
         if status == 0:
             self.lbl_rolled['text'] = "Rolled up"
         else:
             self.lbl_rolled['text'] = "Rolled down"
-
-    # function to start chart
-    def start_chart(self):
-        self.id = self.canvas.after(300, self.step_chart)
+        #add values to graph
+        self.x_temp_2 = temp
+        self.x_light_2 = light
+        self. step_chart()
 
     # chart steps
     def step_chart(self):
@@ -283,17 +314,17 @@ class GUI:
             self.x_light_2 = 50
             self.canvas.delete('temp')  # only delete items tagged as temp
 
-        #draw temp line
+        #draw temperature line
         x_temp_1 = self.x_temp_2
         y_temp_1 = self.y_temp_2
         self.x_temp_2 = 50 + self.f * 50
-        self.y_temp_2 = 250         #temp_value
+        #self.y_temp_2 = 250         #temp_value
         self.canvas.create_line(x_temp_1, y_temp_1, self.x_temp_2, self.y_temp_2, fill='red',width=3, tags='temp')
-        #draw light line
+        #draw light intensity line
         x_light_1 = self.x_light_2
         y_light_1 = self.y_light_2
         self.x_light_2 = 50 + self.f * 50
-        self.y_light_2 = 290        #light_value
+        #self.y_light_2 = 290        #light_value
         self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow',width=3 , tags='temp')
 
         self.f += 1
