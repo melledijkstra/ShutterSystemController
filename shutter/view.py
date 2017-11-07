@@ -8,7 +8,7 @@ class GUI:
         self.master.state('zoomed')
         self.master.title = ('Shutter System')
 
-    def set_controller(self, controller):
+    def register(self, controller):
         self.c = controller
 
     def run(self):
@@ -69,9 +69,9 @@ class GUI:
 
 
         # ***** STATUS *****
-        self.lbl_rolled = Label(self.frame, text='STATUS', bg="white")
-        self.lbl_rolled.grid(row=0, column=2, padx=5, pady=5, sticky=W)
-        self.lbl_rolled.config(font=("", 30))
+        self.lbl_status = Label(self.frame, text='STATUS', bg="white")
+        self.lbl_status.grid(row=0, column=2, padx=5, pady=5, sticky=W)
+        self.lbl_status.config(font=("", 30))
 
         self.lbl_light = Label(self.frame, text='Lightintensity:', bg="white")
         self.lbl_light.grid(row=1, column=2, padx=5, pady=5, sticky=W)
@@ -81,44 +81,40 @@ class GUI:
         self.lbl_temp.grid(row=2, column=2, padx=5, pady=5, sticky=W)
         self.lbl_temp.config(font=("", 12))
 
-<<<<<<< HEAD
         self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
         self.lbl_rolled.grid(row=3, column=2, padx=5, pady=5, sticky=W)
-=======
+
         self.lbl_rolled_distance = Label(self.frame, text='Rolled distance:', bg='white')
         self.lbl_rolled_distance.grid(row=3, column=2, padx=5, pady=5, sticky=W)
         self.lbl_rolled_distance.config(font=("", 12))
 
-        self.lbl_rolled = Label(self.frame, text='Status:', bg="white")
+        self.lbl_rolled = Label(self.frame, text='Rolled:', bg="white")
         self.lbl_rolled.grid(row=4, column=2, padx=5, pady=5, sticky=W)
->>>>>>> 05a5c2c574109fcc17c9525dd35755ceeb76079d
         self.lbl_rolled.config(font=("", 12))
 
         # ***** STATUS OUTPUT *****
                         #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
-        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %' if self.c.isConnected() else '- %')
+        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %')
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
         #Show temperature in celsius
-        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C' if self.c.isConnected() else '- °C')
+        self.lbl_temp = Label(self.frame, bg="white", text="temp_val"' °C')
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
-<<<<<<< HEAD
         self.lbl_rolled = Label(self.frame, bg="white", text="roll_val")
         self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
-=======
+
         #Show distance shutter is rolled out
-        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' CM' if self.c.isConnected() else '- CM')
+        self.lbl_distance = Label(self.frame, bg="white", text="roll_distance"' CM')
         self.lbl_distance.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_distance.config(font=("", 12))
 
         #Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val"  if self.c.isConnected() else '-')
+        self.lbl_rolled = Label(self.frame, bg="white", text="roll_val")
         self.lbl_rolled.grid(row=4, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
->>>>>>> 05a5c2c574109fcc17c9525dd35755ceeb76079d
 
         # ***** SETTINGS *****
         self.lbl_settings = Label(self.frame, text='SETTINGS', bg="white")
@@ -141,19 +137,30 @@ class GUI:
         self.lbl_distance_max.grid(row=4, column=7, padx=5, pady=5, sticky=W)
         self.lbl_distance_max.config(font=("", 12))
 
-<<<<<<< HEAD
+
         # Update Button
-        self.btn_update = Button(self.frame, text='Update', width=35, command=self.c.update)
-=======
+        self.btn_update = Button(self.frame, text='Update', width=35)
+
         # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings', width=35, command=self.c.update)
->>>>>>> 05a5c2c574109fcc17c9525dd35755ceeb76079d
+        self.btn_update = Button(self.frame, text='Update Settings', width=35)
+
         self.btn_update.grid(row=5, column=7, columnspan=2, padx=5, pady=5, sticky=W)
         self.btn_update.config(font=("", 11))
 
         # Input error label
-        self.lbl_error = Label(self.frame, text='Error', bg="white", fg="red")
-        self.lbl_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.light_error = StringVar()
+        self.temp_error = StringVar()
+        self.min_error = StringVar()
+        self.max_error =StringVar()
+
+        self.lbl_light_error = Label(self.frame, textvariable=self.light_error, bg="white", fg="red")
+        self.lbl_light_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_temp_error = Label(self.frame, textvariable=self.temp_error, bg="white", fg="red")
+        self.lbl_temp_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_min_error = Label(self.frame, textvariable=self.min_error, bg="white", fg="red")
+        self.lbl_min_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_max_error = Label(self.frame, textvariable=self.max_error, bg="white", fg="red")
+        self.lbl_max_error.grid(row=6, column=7, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
         #light
@@ -206,7 +213,7 @@ class GUI:
 
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="connected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     def update_connection_status(self, status: bool):
