@@ -1,4 +1,6 @@
 from tkinter import *
+import time
+
 
 class GUI:
 
@@ -6,7 +8,7 @@ class GUI:
         self.master = Tk()
         self.c = None
         self.master.state('zoomed')
-        self.master.title = ('Shutter System')
+        self.master.title = 'Shutter System'
 
     def set_controller(self, controller):
         self.c = controller
@@ -23,45 +25,45 @@ class GUI:
         self.frame.grid_columnconfigure(11, weight=1)
         self.frame.grid_columnconfigure(0, weight=1)
         self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(9, weight=1)
+        self.frame.grid_rowconfigure(12, weight=2)
 
         # ***** LOGOS *****
-                #Icon light status
+        #Icon light status
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=1)
 
-                #Icon temp status
+        #Icon temp status
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=1, sticky=E)
 
-                #Icon light settings
+        #Icon light settings
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
         self.lbl_light.grid(row=1, column=4, sticky=E)
-                #Icon temp settings
+        #Icon temp settings
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
         self.lbl_temp = Label(self.frame, image=self.logo_temp, bg="white")
         self.lbl_temp.image = self.logo_temp
         self.lbl_temp.grid(row=2, column=4, sticky=E)
 
-                #Icon distance status
+        #Icon distance status
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
         self.lbl_distance.grid(row=3, column=1, sticky=E)
 
-                #Icon distance settings min
+        #Icon distance settings min
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
         self.lbl_distance.grid(row=3, column=4, sticky=E)
 
-                #Icon distance settings max
+        #Icon distance settings max
         self.logo_distance = PhotoImage(file="assets/distance.GIF")
         self.lbl_distance = Label(self.frame, image=self.logo_distance, bg="white")
         self.lbl_distance.image = self.logo_distance
@@ -90,8 +92,8 @@ class GUI:
         self.lbl_rolled.config(font=("", 12))
 
         # ***** STATUS OUTPUT *****
-                        #Show light intensity in %          text="connected" if self.c.isConnected() else "disconnected"
-        self.lbl_light = Label(self.frame, bg="white", text="light_val"' %' if self.c.isConnected() else '- %')
+        #Show light intensity in %
+        self.lbl_light = Label(self.frame, bg="white", textvariable="light_val")
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
@@ -199,13 +201,32 @@ class GUI:
         self.btn_connect.config(font=("", 11))
 
         # ***** CHART *****
+        self.canvas = Canvas(self.frame, width=1400, height=500, bg='white')  # 0,0 is top left corner
+        self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
+        now = time.localtime(time.time())
 
+        #Outer lines
+        self.canvas.create_line(50, 450, 1350, 450, width=2)  # x-axis
+        self.canvas.create_line(50, 450, 50, 50, width=2)  # y-axis
+
+        #inner dot lines
+        #x-axis
+        for i in range(27):
+            #time.strftime("%H:%M", now)
+            x = 50 + (i * 50)
+            self.canvas.create_line(x, 450, x, 50, width=1, dash=(2, 5))
+            self.canvas.create_text(x, 450, text='%d' % (10 * i), anchor=N)
+        self.canvas.create_text(60, 470, text='Time (minutes)', anchor=N)
+        #y-axis
+        for i in range(11):
+            y = 450 - (i * 40)
+            self.canvas.create_line(50, y, 1350, y, width=1, dash=(2, 5))
+            self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
+        self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
 
         # ***** STATUS BAR *****
         self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
-
-
 
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
@@ -217,4 +238,3 @@ class GUI:
             self.lbl_rolled['text'] = "Rolled up"
         else:
             self.lbl_rolled['text'] = "Rolled down"
-
