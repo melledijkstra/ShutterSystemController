@@ -26,7 +26,6 @@ class Controller:
 
     # Update button
     def update(self):
-
         try:
             if (self.view.light_entry.get() >-1 and self.view.light_entry.get() < 101):
                 #send update
