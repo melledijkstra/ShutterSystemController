@@ -201,6 +201,15 @@ class GUI:
         self.btn_connect.config(font=("", 11))
 
         # ***** CHART *****
+        self.running = True
+        self.minimum = 0
+        self.maximum = 100
+        self.f = 1
+        self.x_temp_2 = 50
+        self.y_temp_2 = 250
+        self.x_light_2 = 50
+        self.y_light_2 = 400
+
         self.canvas = Canvas(self.frame, width=1400, height=500, bg='white')  # 0,0 is top left corner
         self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
         now = time.localtime(time.time())
@@ -215,7 +224,7 @@ class GUI:
             #time.strftime("%H:%M", now)
             x = 50 + (i * 50)
             self.canvas.create_line(x, 450, x, 50, width=1, dash=(2, 5))
-            self.canvas.create_text(x, 450, text='%d' % (10 * i), anchor=N)
+            self.canvas.create_text(x, 450, text='%d' % (1 * i), anchor=N)
         self.canvas.create_text(60, 470, text='Time (minutes)', anchor=N)
         #y-axis
         for i in range(11):
@@ -223,6 +232,14 @@ class GUI:
             self.canvas.create_line(50, y, 1350, y, width=1, dash=(2, 5))
             self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
         self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
+
+        self.start_chart()
+
+        if self.c.is_connected() == True:
+            self.start_chart()
+            print ('chart looping')
+        else:
+            print ('chart not looping')
 
         # ***** STATUS BAR *****
         self.status = Label(self.master, text="connected" if self.c.is_connected() else "disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
@@ -238,3 +255,31 @@ class GUI:
             self.lbl_rolled['text'] = "Rolled up"
         else:
             self.lbl_rolled['text'] = "Rolled down"
+
+    #function to start chart
+    def start_chart(self):
+        self.id = self.canvas.after(300, self.step_chart)
+
+    #chart steps
+    def step_chart(self):
+        if self.f == 27:
+            # new frame
+            self.f = 1
+            self.x_temp_2 = 50
+            self.x_light_2 = 50
+            self.canvas.delete('temp')  # only delete items tagged as temp
+
+        x_temp_1 = self.x_temp_2
+        y_temp_1 = self.y_temp_2
+        self.x_temp_2 = 50 + self.f * 50
+        self.y_temp_2 = 250
+        self.canvas.create_line(x_temp_1, y_temp_1, self.x_temp_2, self.y_temp_2, fill='red', tags='temp')
+
+        x_light_1 = self.x_light_2
+        y_light_1 = self.y_light_2
+        self.x_light_2 = 50 + self.f * 50
+        self.y_light_2 = 400
+        self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow', tags='temp')
+
+        self.f += 1
+        self.id = self.canvas.after(300, self.step_chart)
