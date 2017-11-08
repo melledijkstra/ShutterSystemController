@@ -3,14 +3,11 @@ from tkinter import *
 
 class Chart():
     def __init__(self, frame: Frame):
-        self.running = True
-        self.minimum = 0
-        self.maximum = 100
-        self.f = 1
+        self.line = 1
         self.x_temp_2 = 50
-        self.y_temp_2 = 450  # temp_value
+        self.y_temp_2 = 0
         self.x_light_2 = 50
-        self.y_light_2 = 450  # light_value
+        self.y_light_2 = 0
 
         self.canvas = Canvas(frame, width=1400, height=490, bg='white')  # 0,0 is top left corner
         self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
@@ -22,35 +19,34 @@ class Chart():
         self.plot_axes()
 
     def step(self, temp_val, light_val):
-        if self.f == 27:
+        #if out of range create 'new frame' and throw away old items
+        if self.line == 27:
             # new frame
-            self.f = 1
+            self.line = 1
             self.x_temp_2 = 50
             self.x_light_2 = 50
             self.canvas.delete('temp')  # only delete items tagged as temp
-
-        if self.f == 1:
+        #first value on graph should be equal to first value
+        if self.line == 1:
             self.y_light_2 = self.value_to_y(light_val)
             self.y_temp_2 = self.value_to_y(temp_val)
-
         # draw temperature line
-        x_temp_1 = self.x_temp_2
-        y_temp_1 = self.y_temp_2
-
-        self.x_temp_2 = 50 + self.f * 50
-        self.y_temp_2 = self.value_to_y(temp_val)  # temp_value
+        x_temp_1 = self.x_temp_2        #write last value to x1
+        y_temp_1 = self.y_temp_2        #write last value to y1
+        self.x_temp_2 = 50 + self.line * 50             # x-axis temp value
+        self.y_temp_2 = self.value_to_y(temp_val)       # y-axis temp_value
         self.canvas.create_line(x_temp_1, y_temp_1, self.x_temp_2, self.y_temp_2, fill='red', width=3, tags='temp')
         # draw light intensity line
-        x_light_1 = self.x_light_2
-        y_light_1 = self.y_light_2
-        self.x_light_2 = 50 + self.f * 50
-        self.y_light_2 = self.value_to_y(light_val)  # light_value
+        x_light_1 = self.x_light_2      #write last value to x1
+        y_light_1 = self.y_light_2      #write last value to y1
+        self.x_light_2 = 50 + self.line * 50            # x-axis light value
+        self.y_light_2 = self.value_to_y(light_val)     # y-axis light_value
         self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow', width=3, tags='temp')
 
-        self.f += 1
+        self.line += 1
 
+    #Draws ax lines on screen
     def plot_axes(self):
-        # inner dot lines
         # x-axis
         for i in range(27):
             x = 50 + (i * 50)
@@ -64,8 +60,10 @@ class Chart():
             self.canvas.create_text(40, y, text='%d' % (10 * i), anchor=E)
         self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
 
+    # Sets value to right amount of pixels on screen
     def value_to_y(self, val):
         if float(val) > 100:
+            #if value above 100 remain 100
             return 450 - 4 * float(100.0)
         else:
             return 450 - 4 * float(val)

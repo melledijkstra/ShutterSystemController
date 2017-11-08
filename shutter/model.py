@@ -29,7 +29,7 @@ class Model:
                     self.temp = value
                 if int(id) == self.LIGHT:
                     self.light = value
-
+            #create dict with time and values
             self.historyledger[time] = {Model.TEMP: self.temp, Model.LIGHT: self.light}
         except IOError:
             print("Invalid data from Arduino")
