@@ -231,7 +231,7 @@ class GUI:
 
         # ***** CHART *****
         self.chart = Chart(self.frame)
-        self.chart.step()
+        self.chart.step(self.temp_val, self.light_val)      # temp_val en light_val moeten waarde van model krijgen + de tijd op de x-as
 
         # ***** CHART LEGEND *****
         self.lbl_lgd = Label(self.frame, text="LEGEND", bg="white")
@@ -273,6 +273,3 @@ class GUI:
             self.lbl_rolled['text'] = "Rolled up"
         else:
             self.lbl_rolled['text'] = "Rolled down"
-        #add values to graph
-        self.x_temp_2 = temp
-        self.x_light_2 = light

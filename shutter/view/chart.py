@@ -1,6 +1,9 @@
 from tkinter import *
 
 
+def value_to_y(self, val):
+    return 450 - 4 * val
+
 class Chart():
 
     def __init__(self, frame: Frame):
@@ -35,7 +38,7 @@ class Chart():
         self.canvas.create_text(20, 440, text='Value', anchor=E, angle=90)
 
 
-    def step(self):
+    def step(self, temp_val, light_val):
         if self.f == 27:
             # new frame
             self.f = 1
@@ -47,15 +50,17 @@ class Chart():
         x_temp_1 = self.x_temp_2
         y_temp_1 = self.y_temp_2
         self.x_temp_2 = 50 + self.f * 50
-        # self.y_temp_2 = 250         #temp_value
+        self.y_temp_2 = value_to_y(self, temp_val)          #temp_value
         self.canvas.create_line(x_temp_1, y_temp_1, self.x_temp_2, self.y_temp_2, fill='red', width=3, tags='temp')
         # draw light intensity line
         x_light_1 = self.x_light_2
         y_light_1 = self.y_light_2
         self.x_light_2 = 50 + self.f * 50
-        # self.y_light_2 = 290        #light_value
+        self.y_light_2 = value_to_y(self, light_val)        #light_value
         self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow', width=3,
                                 tags='temp')
 
         self.f += 1
         self.id = self.canvas.after(300, self.step)
+
+
