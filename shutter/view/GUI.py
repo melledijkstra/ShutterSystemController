@@ -101,17 +101,17 @@ class GUI:
 
         # ***** STATUS OUTPUT *****
         #Show light intensity in %
-        self.lbl_light = Label(self.frame, bg="white", textvariable="light_val", text=" %")
+        self.lbl_light = Label(self.frame, bg="white", text=" %")
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
         #Show temperature in celsius
-        self.lbl_temp = Label(self.frame, bg="white", textvariable="temp_val", text=" °C")
+        self.lbl_temp = Label(self.frame, bg="white", text=" °C")
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
         #Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, bg="white", textvariable="roll_val")
+        self.lbl_rolled = Label(self.frame, bg="white", text="")
         self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
 
@@ -265,8 +265,10 @@ class GUI:
 
     def update(self, temp, light, status):
         #update light and temp status
-        self.lbl_temp['text'] = temp
-        self.lbl_light['text'] = light
+        self.lbl_temp['text'] = temp + " °C"
+        print(temp)
+        self.lbl_light['text'] = light + " %"
+        print(light)
         # update rolled status
         if status == 0:
             self.lbl_rolled['text'] = "Rolled up"
