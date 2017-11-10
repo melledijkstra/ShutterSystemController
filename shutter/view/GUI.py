@@ -32,7 +32,7 @@ class GUI:
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
-        self.lbl_light.grid(row=1, column=1)
+        self.lbl_light.grid(row=1, column=1, sticky=E)
 
         #Icon temp status
         self.logo_temp = PhotoImage(file="assets/temp.GIF")
@@ -44,7 +44,7 @@ class GUI:
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
         self.lbl_light.image = self.logo_light
-        self.lbl_light.grid(row=1, column=6, pady=5, sticky=SE)
+        self.lbl_light.grid(row=1, column=6, pady=5, sticky=E)
         # Icon light settings 2
         self.logo_light = PhotoImage(file="assets/light.GIF")
         self.lbl_light = Label(self.frame, image=self.logo_light, bg="white")
@@ -101,17 +101,17 @@ class GUI:
 
         # ***** STATUS OUTPUT *****
         #Show light intensity in %
-        self.lbl_light = Label(self.frame, bg="white", textvariable="light_val", text=" %")
+        self.lbl_light = Label(self.frame, bg="white", text=" %")
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         self.lbl_light.config(font=("", 12))
 
         #Show temperature in celsius
-        self.lbl_temp = Label(self.frame, bg="white", textvariable="temp_val", text=" °C")
+        self.lbl_temp = Label(self.frame, bg="white", text=" °C")
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         self.lbl_temp.config(font=("", 12))
 
         #Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, bg="white", textvariable="roll_val")
+        self.lbl_rolled = Label(self.frame, bg="white", text="")
         self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         self.lbl_rolled.config(font=("", 12))
 
@@ -121,7 +121,7 @@ class GUI:
         self.lbl_settings.config(font=("", 30))
 
         self.lbl_light_min = Label(self.frame, text='Minimum Lightintensity:', bg="white")
-        self.lbl_light_min.grid(row=1, column=7, padx=5, pady=5, sticky=SW)
+        self.lbl_light_min.grid(row=1, column=7, padx=5, pady=5, sticky=W)
         self.lbl_light_min.config(font=("", 12))
 
         self.lbl_light_max = Label(self.frame, text='Maximum Lightintensity:', bg="white")
@@ -151,22 +151,22 @@ class GUI:
         self.max_error =StringVar()
 
         self.lbl_light_error = Label(self.frame, textvariable=self.light_error, bg="white", fg="red")
-        self.lbl_light_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_light_error.grid(row=5, column=10, columnspan=2, rowspan=3)
         self.lbl_temp_error = Label(self.frame, textvariable=self.temp_error, bg="white", fg="red")
-        self.lbl_temp_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_temp_error.grid(row=5, column=10, columnspan=2, rowspan=3)
         self.lbl_min_error = Label(self.frame, textvariable=self.min_error, bg="white", fg="red")
-        self.lbl_min_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_min_error.grid(row=5, column=10, columnspan=2, rowspan=3)
         self.lbl_max_error = Label(self.frame, textvariable=self.max_error, bg="white", fg="red")
-        self.lbl_max_error.grid(row=6, column=7, columnspan=2, rowspan=3)
+        self.lbl_max_error.grid(row=5, column=10, columnspan=2, rowspan=3)
 
         # ***** SETTINGS INPUT *****
         #min light
         self.light_min_entry = IntVar()
         self.entry_light_min = Entry(self.frame, width=12, textvariable=self.light_min_entry)
-        self.entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=SE)
+        self.entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.entry_light_min.config(font=("", 11))
         self.lbl_entry_light_min = Label(self.frame, text='%', bg="white")
-        self.lbl_entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=SE)
+        self.lbl_entry_light_min.grid(row=1, column=8, padx=5, pady=5, sticky=E)
         self.lbl_entry_light_min.config(font=("", 11))
 
         #max light
@@ -231,7 +231,6 @@ class GUI:
 
         # ***** CHART *****
         self.chart = Chart(self.frame)
-        self.chart.step()
 
         # ***** CHART LEGEND *****
         self.lbl_lgd = Label(self.frame, text="LEGEND", bg="white")
@@ -266,13 +265,15 @@ class GUI:
 
     def update(self, temp, light, status):
         #update light and temp status
-        self.lbl_temp['text'] = temp
-        self.lbl_light['text'] = light
-        #update rolled status
+        self.lbl_temp['text'] = temp + " °C"
+        self.lbl_light['text'] = light + " %"
+        # update rolled status
         if status == 0:
             self.lbl_rolled['text'] = "Rolled up"
         else:
             self.lbl_rolled['text'] = "Rolled down"
-        #add values to graph
-        self.x_temp_2 = temp
-        self.x_light_2 = light
+        # add values to graph
+        self.chart.step(temp, light)
+
+
+

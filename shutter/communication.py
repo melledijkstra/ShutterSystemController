@@ -34,7 +34,6 @@ class SerialCommunication:
             data = line.decode().split('|')
             for values in data:
                 self.value.append(values.split(':'))
-            print(self.value)
             if callable(self.trigger):
                 self.trigger(self.value)
 
