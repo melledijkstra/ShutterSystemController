@@ -7,24 +7,26 @@ ser = serial.Serial(
     baudrate=19200
 )
 
-ser.isOpen()
-
 print('Enter your commands below.\r\nInsert "exit" to leave the application.')
 
-inp = 1
 while 1:
     # get keyboard input
-    inp = input(">> ")
-    if inp == 'exit':
+    print("Provide ID")
+    id = input(">> ")
+    print("Provide Value")
+    value = input(">> ")
+
+    if id == 'exit' or value == 'exit':
         ser.close()
         exit()
     else:
         # send the character to the device
         # (note that I happend a \r\n carriage return and line feed to the characters - this is requested by my device)
-        ser.write(str.encode(inp + '\r\n'))
+        ser.write(bytes([int(id)]))
+        ser.write(bytes([int(value)]))
 
         # let's wait one second before reading output (let's give device time to answer)
-        time.sleep(1)
+        time.sleep(0.5)
 
         out = ""
         while ser.inWaiting() > 0:
@@ -32,3 +34,5 @@ while 1:
 
         if out != '':
             print(">> " + out)
+
+        time.sleep(0.5)
