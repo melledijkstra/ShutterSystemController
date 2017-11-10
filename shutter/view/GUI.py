@@ -266,9 +266,7 @@ class GUI:
     def update(self, temp, light, status):
         #update light and temp status
         self.lbl_temp['text'] = temp + " °C"
-        print(temp)
         self.lbl_light['text'] = light + " %"
-        print(light)
         # update rolled status
         if status == 0:
             self.lbl_rolled['text'] = "Rolled up"
