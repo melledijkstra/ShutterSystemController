@@ -26,7 +26,11 @@ class SerialCommunication:
         return self._connected
 
     def is_connected(self):
-        return self.ser.isOpen()
+        try:
+            self.ser.isOpen()
+            return True
+        except:
+            return False
 
     def read(self):
         while True:
@@ -34,7 +38,6 @@ class SerialCommunication:
             data = line.decode().split('|')
             for values in data:
                 self.value.append(values.split(':'))
-            print(self.value)
             if callable(self.trigger):
                 self.trigger(self.value)
 
