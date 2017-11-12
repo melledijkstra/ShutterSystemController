@@ -26,7 +26,11 @@ class SerialCommunication:
         return self._connected
 
     def is_connected(self):
-        return self.ser.isOpen()
+        try:
+            self.ser.isOpen()
+            return True
+        except:
+            return False
 
     def read(self):
         while True:
