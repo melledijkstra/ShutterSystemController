@@ -1,6 +1,12 @@
 from serial import *
 import time
 import threading
+
+class SerialCommunication:
+
+    def __init__(self, port):
+        self.port = port
+        self.baud = 19200
         self.open_connection()
         self.data = []
         self.value = []
