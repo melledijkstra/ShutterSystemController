@@ -73,60 +73,60 @@ class Tab:
         self.lbl_status.grid(row=0, column=2, padx=5, pady=5, sticky=W)
         # self.lbl_status.config(("", 30))
 
-        self.lbl_light = Label(self.frame, text='Lightintensity:')
+        self.lbl_light = Label(self.frame, text='Lightintensity:', background='white')
         self.lbl_light.grid(row=1, column=2, padx=5, pady=5, sticky=W)
         #self.lbl_light.config(("", 12))
 
-        self.lbl_temp = Label(self.frame, text='Temperature:')
+        self.lbl_temp = Label(self.frame, text='Temperature:', background='white')
         self.lbl_temp.grid(row=2, column=2, padx=5, pady=5, sticky=W)
         #self.lbl_temp.config(("", 12))
 
-        self.lbl_rolled = Label(self.frame, text='Rolled:')
+        self.lbl_rolled = Label(self.frame, text='Rolled:', background='white')
         self.lbl_rolled.grid(row=3, column=2, padx=5, pady=5, sticky=W)
         #self.lbl_rolled.config(("", 12))
 
         # ***** STATUS OUTPUT *****
         # Show light intensity in %
-        self.lbl_light = Label(self.frame, text=" %")
+        self.lbl_light = Label(self.frame, text=" %", background='white')
         self.lbl_light.grid(row=1, column=3, padx=5, pady=5, sticky=E)
         #self.lbl_light.config(("", 12))
 
         # Show temperature in celsius
-        self.lbl_temp = Label(self.frame, text=" °C")
+        self.lbl_temp = Label(self.frame, text=" °C", background='white')
         self.lbl_temp.grid(row=2, column=3, padx=5, pady=5, sticky=E)
         #self.lbl_temp.config(("", 12))
 
         # Rolled out/Rolled in depending on status shutter
-        self.lbl_rolled = Label(self.frame, text="")
+        self.lbl_rolled = Label(self.frame, text="", background='white')
         self.lbl_rolled.grid(row=3, column=3, padx=5, pady=5, sticky=E)
         #self.lbl_rolled.config(("", 12))
 
         # ***** SETTINGS *****
-        self.lbl_settings = Label(self.frame, text='SETTINGS')
+        self.lbl_settings = Label(self.frame, text='SETTINGS', background='white')
         self.lbl_settings.grid(row=0, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_settings.config(("", 30))
 
-        self.lbl_light_min = Label(self.frame, text='Minimum Lightintensity:')
+        self.lbl_light_min = Label(self.frame, text='Minimum Lightintensity:', background='white')
         self.lbl_light_min.grid(row=1, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_light_min.config(("", 12))
 
-        self.lbl_light_max = Label(self.frame, text='Maximum Lightintensity:')
+        self.lbl_light_max = Label(self.frame, text='Maximum Lightintensity:', background='white')
         self.lbl_light_max.grid(row=2, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_light_max.config(("", 12))
 
-        self.lbl_temp_min = Label(self.frame, text='Minimum Temperature:')
+        self.lbl_temp_min = Label(self.frame, text='Minimum Temperature:', background='white')
         self.lbl_temp_min.grid(row=3, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_temp_min.config(("", 12))
 
-        self.lbl_temp_max = Label(self.frame, text='Maximum Temperature:')
+        self.lbl_temp_max = Label(self.frame, text='Maximum Temperature:', background='white')
         self.lbl_temp_max.grid(row=4, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_temp_max.config(("", 12))
 
-        self.lbl_distance_min = Label(self.frame, text='Minimum Roll Distance:')
+        self.lbl_distance_min = Label(self.frame, text='Minimum Roll Distance:', background='white')
         self.lbl_distance_min.grid(row=5, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_distance_min.config(("", 12))
 
-        self.lbl_distance_max = Label(self.frame, text='Maximum Roll Distance:')
+        self.lbl_distance_max = Label(self.frame, text='Maximum Roll Distance:', background='white')
         self.lbl_distance_max.grid(row=6, column=7, padx=5, pady=5, sticky=W)
         #self.lbl_distance_max.config(("", 12))
 
@@ -214,11 +214,11 @@ class Tab:
         self.chart = Chart(self.frame)
 
         # ***** CHART LEGEND *****
-        self.lbl_lgd = Label(self.frame, text="LEGEND")
+        self.lbl_lgd = Label(self.frame, text="LEGEND", background='white')
         self.lbl_lgd.grid(row=5, column=2, padx=5, pady=5, sticky=SW)
         #self.lbl_lgd.config(("", 16))
         # label temperature
-        self.lbl_lgd_temp = Label(self.frame, text="Temperature: ")
+        self.lbl_lgd_temp = Label(self.frame, text="Temperature: ", background='white')
         self.lbl_lgd_temp.grid(row=6, column=2, padx=5, pady=5, sticky=W)
         #self.lbl_lgd_temp.config(("", 12))
         # label red line
@@ -227,7 +227,7 @@ class Tab:
         self.lbl_red.image = self.logo_red
         self.lbl_red.grid(row=6, column=3, sticky=W)
         # label light
-        self.lbl_lgd_light = Label(self.frame, text="Light intensity: ")
+        self.lbl_lgd_light = Label(self.frame, text="Light intensity: ", background='white')
         self.lbl_lgd_light.grid(row=6, column=4, padx=5, pady=5, sticky=W)
         #self.lbl_lgd_light.config(("", 12))
         # label yellow line
