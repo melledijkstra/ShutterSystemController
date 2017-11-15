@@ -8,7 +8,6 @@ class GUI:
         self.master = Tk()
         self.master.state('zoomed')
         self.master.title = 'Shutter System'
-        self.initialize_gui()
         self.c = None
 
     def register(self, controller):
@@ -17,10 +16,9 @@ class GUI:
     def run(self):
         self.master.mainloop()
 
-    def initialize_gui(self):
-        self.frame = Frame(self.master, bg='white')
-        self.frame.pack(fill=BOTH, expand=1)
+    def initialize_gui(self, frame):
 
+        self.frame = frame
         # ***** CONFIG COLUMNS/ROWS *****
         self.frame.grid_columnconfigure(1, weight=3)
         self.frame.grid_rowconfigure(1, weight=2)
