@@ -3,8 +3,8 @@ from shutter.view import GUI
 from shutter.view.subcontroller import SubController
 from shutter.view.tabs import *
 
-class Controller:
 
+class Controller:
     def __init__(self, view: GUI):
         # set view
         self.view = view
@@ -55,4 +55,3 @@ class Controller:
         self.style.configure('TNotebook.Tab', foreground=_fgcolor)
         self.style.map('TNotebook.Tab', background=
         [('selected', _compcolor), ('active', _ana2color)])
-

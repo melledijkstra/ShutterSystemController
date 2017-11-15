@@ -2,8 +2,8 @@ from serial import *
 import time
 import threading
 
-class SerialCommunication:
 
+class SerialCommunication:
     def __init__(self, port):
         self.port = port
         self.baud = 19200
@@ -15,7 +15,7 @@ class SerialCommunication:
         print("making connection with " + self.port)
         try:
             self.ser = Serial(port=self.port, baudrate=self.baud)
-            time.sleep(1)       # wait for the Arduino to connect
+            time.sleep(1)  # wait for the Arduino to connect
             self._connected = True
             print("connection established")
             read_thread = threading.Thread(target=self.read)
@@ -35,7 +35,7 @@ class SerialCommunication:
     def read(self):
         while True:
             try:
-                line = self.ser.readline().strip()   # add the id byte to the list     # add the value byte to the list
+                line = self.ser.readline().strip()  # add the id byte to the list     # add the value byte to the list
                 data = line.decode().split('|')
                 for values in data:
                     self.value.append(values.split(':'))

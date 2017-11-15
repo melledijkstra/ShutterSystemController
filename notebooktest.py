@@ -3,8 +3,6 @@ from tkinter.ttk import *
 
 from shutter.view.chart import Chart
 
-
-
 root = Tk()
 note = Notebook(root)
 

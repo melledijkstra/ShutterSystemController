@@ -1,7 +1,7 @@
 from time import gmtime, strftime
 
-class Model:
 
+class Model:
     ROLLDOWN = 1
     ROLLUP = 0
 

@@ -6,9 +6,9 @@ class Chart():
     def __init__(self, frame: Frame):
         self.line = 1
         self.x_temp_2 = 50
-        self.y_temp_2 = 450     # temp_value
+        self.y_temp_2 = 450  # temp_value
         self.x_light_2 = 50
-        self.y_light_2 = 450    # light_value
+        self.y_light_2 = 450  # light_value
 
         self.canvas = Canvas(frame, width=1400, height=490, bg='white')  # 0,0 is top left corner
         self.canvas.grid(row=10, column=0, rowspan=2, columnspan=12)
@@ -33,8 +33,8 @@ class Chart():
             self.y_temp_2 = self.value_to_y(temp_val)
 
         # draw temperature line
-        x_temp_1 = self.x_temp_2    # Sets the first point of a new line equal to the second point of the line to make it a smooth transition
-        y_temp_1 = self.y_temp_2    # Same as above
+        x_temp_1 = self.x_temp_2  # Sets the first point of a new line equal to the second point of the line to make it a smooth transition
+        y_temp_1 = self.y_temp_2  # Same as above
 
         self.x_temp_2 = 50 + self.line * 50
         self.y_temp_2 = self.value_to_y(temp_val)  # Make an y coordinate with the temperature value
@@ -43,8 +43,9 @@ class Chart():
         x_light_1 = self.x_light_2  # Sets the first point of a new line equal to the second point of the previous line to make it a smooth transition
         y_light_1 = self.y_light_2  # Same as above
         self.x_light_2 = 50 + self.line * 50
-        self.y_light_2 = self.value_to_y(light_val) # Make an y coordinate with the light intensity value
-        self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow', width=3, tags='temp')
+        self.y_light_2 = self.value_to_y(light_val)  # Make an y coordinate with the light intensity value
+        self.canvas.create_line(x_light_1, y_light_1, self.x_light_2, self.y_light_2, fill='yellow', width=3,
+                                tags='temp')
         self.canvas.create_text(self.x_temp_2, 450, text=strftime('%H:%M'), anchor=N, tags='temp')
 
         self.line += 1

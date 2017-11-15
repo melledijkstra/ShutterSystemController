@@ -1,13 +1,11 @@
 from tkinter import *
-from shutter.view.chart import Chart
-from shutter.view.tabs import Tab
+
 
 class GUI:
-
     def __init__(self):
         self.master = Tk()
         self.master.state('zoomed')
-        self.master.title = 'Shutter System'
+        self.master.title('Shutter System')
         self.c = None
 
     def register(self, controller):
@@ -17,14 +15,12 @@ class GUI:
         self.master.mainloop()
 
     def initialize_gui(self, frame):
-
         self.frame = frame
         # ***** CONFIG COLUMNS/ROWS *****
         self.frame.grid_columnconfigure(1, weight=3)
         self.frame.grid_rowconfigure(1, weight=2)
         self.frame.grid_columnconfigure(3, weight=3)
         self.frame.grid_rowconfigure(3, weight=2)
-
 
         # ***** CONNECT BUTTON *****
         self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect())
@@ -38,6 +34,3 @@ class GUI:
     # updates the status bar with connection status
     def update_connection_status(self, status: bool):
         self.status['text'] = "connected" if status else "disconnected"
-
-
-
