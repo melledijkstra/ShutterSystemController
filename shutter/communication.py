@@ -34,17 +34,20 @@ class SerialCommunication:
 
     def read(self):
         while True:
-            line = self.ser.readline().strip()   # add the id byte to the list     # add the value byte to the list
-            data = line.decode().split('|')
-            for values in data:
-                self.value.append(values.split(':'))
-            if callable(self.trigger):
-                self.trigger(self.value)
+            try:
+                line = self.ser.readline().strip()   # add the id byte to the list     # add the value byte to the list
+                data = line.decode().split('|')
+                for values in data:
+                    self.value.append(values.split(':'))
+                if callable(self.trigger):
+                    self.trigger(self.value)
+            except:
+                print("\033[93m!Incoming data not valid!\033[0m")
 
-    def write(self, status: int):
+    def write(self, byte: int):
         # Make sure that 1 byte is going to the arduino
         try:
-            self.ser.write(status.to_bytes(1, byteorder="little"))
+            self.ser.write(byte.to_bytes(1, byteorder="little"))
         except:
             pass
 
