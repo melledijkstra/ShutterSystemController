@@ -40,5 +40,3 @@ class Model:
 
         except IOError:
             print("Invalid data from Arduino")
-
-
