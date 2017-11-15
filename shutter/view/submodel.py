@@ -5,6 +5,9 @@ class Model:
     ROLLDOWN = 1
     ROLLUP = 0
 
+    ROLLDOWN = 1
+    ROLLUP = 0
+
     MAXROLLDOWNDISTANCE = 1
     MAXROLLUPDISTANCE = 2
     ROLL = 3

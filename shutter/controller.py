@@ -3,8 +3,8 @@ from shutter.view import GUI
 from shutter.view.subcontroller import SubController
 from shutter.view.tab import *
 
-
 class Controller:
+
     def __init__(self, view: GUI):
         # set view
         self.view = view
@@ -14,7 +14,7 @@ class Controller:
         self.note = Notebook(self.view.master)
         self.frame = Frame(self.note)
         self.note.add(self.frame, text="Main Screen", compound=TOP)
-        self.note.pack()
+        self.note.pack(expand=1, fill="both")
         self.view.initialize_gui(self.frame)
         # create serial connection
         self.comports = ['COM1', 'COM2', 'COM3', 'COM4', 'COM5']
@@ -53,5 +53,8 @@ class Controller:
 
         self.style.configure('TNotebook.Tab', background=_bgcolor)
         self.style.configure('TNotebook.Tab', foreground=_fgcolor)
+        self.style.configure('TButton.Tab', background=_bgcolor)
+        self.style.map('TButton.Tab', background=[('selected', _compcolor), ('active', _ana2color)])
         self.style.map('TNotebook.Tab', background=
         [('selected', _compcolor), ('active', _ana2color)])
+
