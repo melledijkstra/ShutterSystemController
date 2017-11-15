@@ -8,6 +8,7 @@ ser = serial.Serial(
     baudrate=19200
 )
 
+
 def read():
     while True:
         out = ""
@@ -19,7 +20,6 @@ def read():
 
 
 threading.Thread(target=read).start()
-
 
 print('Enter your commands below.\r\nInsert "exit" to leave the application.')
 
