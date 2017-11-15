@@ -22,19 +22,24 @@ class GUI:
         self.frame.pack(fill=BOTH, expand=1)
 
         # ***** CONFIG COLUMNS/ROWS *****
-        self.frame.grid_columnconfigure(6, weight=3)
-        self.frame.grid_columnconfigure(11, weight=1)
-        self.frame.grid_columnconfigure(0, weight=1)
-        self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(12, weight=2)
+        self.frame.grid_columnconfigure(1, weight=3)
+        self.frame.grid_rowconfigure(1, weight=2)
+        self.frame.grid_columnconfigure(3, weight=3)
+        self.frame.grid_rowconfigure(3, weight=2)
+
+        # ***** BACKGROUND *****
+        self.main_background = PhotoImage(file="assets/mainscreen.gif")
+        self.lbl_background = Label(self.frame, image=self.main_background)
+        self.lbl_background.image = self.main_background
+        self.lbl_background.grid(row=2, column=2, sticky=E)
 
         # ***** CONNECT BUTTON *****
         self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect())
-        self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
-        self.btn_connect.config(font=("", 11))
+        self.btn_connect.grid(row=2, column=2, padx=5, pady=5)
+        self.btn_connect.config(font=("", 30))
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="-", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     # updates the status bar with connection status
