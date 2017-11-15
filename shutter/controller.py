@@ -17,7 +17,7 @@ class Controller:
         self.note.pack(expand=1, fill="both")
         self.view.initialize_gui(self.frame)
         # create serial connection
-        self.comports = ['COM1', 'COM2', 'COM3', 'COM4', 'COM5']
+        self.comports = ['COM1', 'COM2', 'COM3', 'COM4', 'COM5', 'COM6', 'COM7']
 
     def connect(self):
         for comport in self.comports:
