@@ -42,7 +42,7 @@ class SerialCommunication:
                 if callable(self.trigger):
                     self.trigger(self.value)
             except:
-                print("\033[93m!Incoming data not valid!\033[0m")
+                print("\033[93mIncoming data not valid!\033[0m")
 
     def write(self, byte: int):
         # Make sure that 1 byte is going to the arduino
