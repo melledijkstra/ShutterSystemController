@@ -206,7 +206,7 @@ class Tab:
         # self.btn_roll.config(("", 11))
 
         # Update Settings button
-        self.btn_update = Button(self.frame, text='Update Settings', width=14, command=lambda: self.c.update())
+        self.btn_update = Button(self.frame, text='Update Settings', width=14, command=lambda: self.c.update_settings())
         self.btn_update.grid(row=6, column=10, columnspan=2, padx=5, pady=5, sticky=W)
         # self.btn_update.config(("", 11))
 
@@ -240,15 +240,14 @@ class Tab:
         self.status = Label(self.tab, text="-", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)'''
 
-    def update(self, temp, light):
+    def update(self, temp, light, status, cm_status):
         # update light and temp status
         self.lbl_temp['text'] = temp + " °C"
         self.lbl_light['text'] = light + " %"
+        cm_status = 'too far' if int(cm_status) < 1 else cm_status+'cm'
+        if status == 0:
+            self.lbl_rolled['text'] = "Rolled up (" + cm_status + ")"
+        else:
+            self.lbl_rolled['text'] = "Rolled down (" + cm_status + ")"
         # add values to graph
         self.chart.step(temp, light)
-
-    def update_status(self, status, cm_status):
-        if status == 0:
-            self.lbl_rolled['text'] = "Rolled up (%s)" % cm_status
-        if status == 1:
-            self.lbl_rolled['text'] = "Rolled down (%s)" % cm_status

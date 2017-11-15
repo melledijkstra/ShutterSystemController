@@ -9,7 +9,6 @@ class SerialCommunication:
         self.baud = 19200
         self.open_connection()
         self.data = []
-        self.value = []
 
     def open_connection(self):
         print("making connection with " + self.port)
@@ -34,15 +33,17 @@ class SerialCommunication:
 
     def read(self):
         while True:
+            line = ''
             try:
+                value = []
                 line = self.ser.readline().strip()  # add the id byte to the list     # add the value byte to the list
                 data = line.decode().split('|')
                 for values in data:
-                    self.value.append(values.split(':'))
+                    value.append(values.split(':'))
                 if callable(self.trigger):
-                    self.trigger(self.value)
-            except:
-                print("\033[93mIncoming data not valid!\033[0m")
+                    self.trigger(value)
+            except Exception as e:
+                print('\033[93mIncoming data not valid!\033[0m ('+str(line)+') '+str(e))
 
     def write(self, byte: int):
         # Make sure that 1 byte is going to the arduino

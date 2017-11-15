@@ -11,7 +11,7 @@ class SubController:
     def is_connected(self):
         return self.conn.is_connected()
 
-    def update(self):
+    def update_settings(self):
         try:
             min_light_value = int(self.tab.light_min_entry.get())
             if -1 < self.tab.light_min_entry.get() < 101:
@@ -88,8 +88,7 @@ class SubController:
     def serial_update(self, data: list):
         # check incoming data
         self.model.update_model(data)
-        self.tab.update(self.model.temp, self.model.light)
-        self.tab.update_status(self.model.status, self.model.cm_status)
+        self.tab.update(self.model.temp, self.model.light, self.model.status, self.model.cm_status)
 
     def connect(self):
         status = self.conn.open_connection()
@@ -107,4 +106,4 @@ class SubController:
             self.conn.write(self.model.ROLLDOWN)
             self.model.status = self.model.ROLLDOWN
 
-        self.tab.update_status(self.model.status, self.model.cm_status)
+        # self.tab.update_status(self.model.status, self.model.cm_status)

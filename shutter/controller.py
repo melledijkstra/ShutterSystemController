@@ -1,7 +1,7 @@
 from shutter.communication import SerialCommunication
 from shutter.view import GUI
 from shutter.view.subcontroller import SubController
-from shutter.view.tabs import *
+from shutter.view.tab import *
 
 
 class Controller:
