@@ -1,6 +1,12 @@
 from time import gmtime, strftime
 
+
 class Model:
+    ROLLDOWN = 1
+    ROLLUP = 0
+
+    ROLLDOWN = 1
+    ROLLUP = 0
 
     MAXROLLDOWNDISTANCE = 1
     MAXROLLUPDISTANCE = 2
@@ -10,11 +16,16 @@ class Model:
     LIGHTUPPERLIMIT = 6
     LIGHTLOWESTLIMIT = 7
 
+    TEMP = 1
+    LIGHT = 2
+    STATUS = 3
+
     def __init__(self):
         self.historyledger = {}
         self.temp = ''
         self.light = ''
-        self.status = ''
+        self.cm_status = ''
+        self.status = 0
         self.max_setting_temp = 100
         self.max_setting_light = 100
         self.min_setting_temp = 0
@@ -22,21 +33,24 @@ class Model:
 
     def update_model(self, data):
 
-        TEMP = 1
-        LIGHT = 2
-
         try:
             time = strftime("%H:%M:%S", gmtime())
             for lists in data:
-                id = lists[0]
+                message_id = int(lists[0])
                 value = lists[1]
-                if int(id) == TEMP:
+                if message_id == self.TEMP:
                     self.temp = value
-                if int(id) == LIGHT:
+                if message_id == self.LIGHT:
                     self.light = value
+                if message_id == self.STATUS:
+                    # if value >= max_down_dist:
+                    #   self.status = DOWN
+                    # else:
+                    #   self.status = UP
+                    self.cm_status = value
 
             # create dict with time and values
-            self.historyledger[time] = {TEMP: self.temp, LIGHT: self.light}
+            self.historyledger[time] = {self.TEMP: self.temp, self.LIGHT: self.light}
 
-        except IOError:
+        except IOError or ValueError:
             print("Invalid data from Arduino")

@@ -1,6 +1,5 @@
 from tkinter import *
-from shutter.view.chart import Chart
-from shutter.view.tabs import Tab
+from PIL import Image, ImageTk
 
 class GUI:
 
@@ -8,7 +7,6 @@ class GUI:
         self.master = Tk()
         self.master.state('zoomed')
         self.master.title = 'Shutter System'
-        self.initialize_gui()
         self.c = None
 
     def register(self, controller):
@@ -17,24 +15,35 @@ class GUI:
     def run(self):
         self.master.mainloop()
 
-    def initialize_gui(self):
-        self.frame = Frame(self.master, bg="white")
-        self.frame.pack(fill=BOTH, expand=1)
+    def initialize_gui(self, frame):
+
+        self.frame = frame
+
+        # ***** BACKGROUND *****
+        width, height = self.master.winfo_screenwidth(), self.master.winfo_screenheight()
+        image = Image.open("assets/mainscreen.GIF")
+        # Resize image to width and height of window
+        if image.size != (width, height):
+            image = image.resize((width, height), Image.ANTIALIAS)
+        image = ImageTk.PhotoImage(image)
+        bg_label = Label(self.frame, image=image)
+        bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+        bg_label.image = image
 
         # ***** CONFIG COLUMNS/ROWS *****
-        self.frame.grid_columnconfigure(6, weight=3)
-        self.frame.grid_columnconfigure(11, weight=1)
-        self.frame.grid_columnconfigure(0, weight=1)
-        self.frame.grid_columnconfigure(9, weight=1)
-        self.frame.grid_rowconfigure(12, weight=2)
+        self.frame.grid_columnconfigure(1, weight=3)
+        self.frame.grid_rowconfigure(1, weight=2)
+        self.frame.grid_columnconfigure(3, weight=3)
+        self.frame.grid_rowconfigure(3, weight=2)
+
 
         # ***** CONNECT BUTTON *****
-        self.btn_connect = Button(self.frame, text='Make connection', width=14, command=lambda: self.c.connect())
-        self.btn_connect.grid(row=1, column=10, padx=5, pady=5, sticky=W)
-        self.btn_connect.config(font=("", 11))
+        self.btn_connect = Button(self.frame, text='Make connection', relief=SOLID, borderwidth=4, width=14, command=lambda: self.c.connect())
+        self.btn_connect.grid(row=2, column=2, padx=5, pady=5)
+        self.btn_connect.config(font=("", 12))
 
         # ***** STATUS BAR *****
-        self.status = Label(self.master, text="-", bd=1, bg="white", relief=SUNKEN, anchor=W)
+        self.status = Label(self.master, text="disconnected", bd=1, bg="white", relief=SUNKEN, anchor=W)
         self.status.pack(side=BOTTOM, fill=X)
 
     # updates the status bar with connection status
