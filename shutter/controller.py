@@ -116,7 +116,7 @@ class Controller:
             print("sending rollup message")
             self.conn.write(self.model.ROLL)
             self.conn.write(self.ROLLUP)
-            self.status = self.ROLLUP
+            self.model.status = self.ROLLUP
         else:
             print("sending rolldown message")
             self.conn.write(self.model.ROLL)
